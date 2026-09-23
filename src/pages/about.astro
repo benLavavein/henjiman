@@ -1,0 +1,48 @@
+---
+import '../styles/global.css';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="description" content="About Ben Hayden, a software developer creating thoughtful and dependable products for the web." />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>About — Ben Hayden</title>
+	</head>
+	<body>
+		<div class="page-shell">
+			<header class="flex items-center justify-end py-7 sm:py-9">
+				<nav aria-label="Primary navigation">
+					<ul class="flex items-center gap-5 text-sm font-medium text-muted sm:gap-7">
+						<li><a class="nav-link" href="/">Home</a></li>
+						<li><a class="nav-link text-ink" href="/about/" aria-current="page">About</a></li>
+						<li><a class="nav-link" href="mailto:ben@lavavein.com">Contact</a></li>
+					</ul>
+				</nav>
+			</header>
+
+			<main>
+				<section class="grid min-h-[72vh] content-center gap-14 py-20 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24 sm:py-28">
+					<div>
+						<p class="eyebrow animate-in">About me</p>
+						<h1 class="mt-6 max-w-lg text-balance text-[clamp(3.5rem,7vw,7rem)] font-semibold leading-[0.9] tracking-[-0.065em] animate-in delay-1">Curious by default.</h1>
+					</div>
+					<div class="max-w-2xl space-y-7 self-center text-lg leading-8 text-muted animate-in delay-2 sm:text-xl sm:leading-9">
+						<p>I enjoy working across the stack, from the first sketch of an interface to the systems that keep it running. The best work, to me, feels obvious in hindsight.</p>
+						<p>I’m passionate about staying current with web development, learning new tools, and turning ambitious ideas into resilient software that people enjoy using.</p>
+						<p>When I’m not writing code, you’ll usually find me learning something new, making things, or getting away from a screen for a while.</p>
+						<a class="button-primary mt-3" href="mailto:ben@lavavein.com">Let’s work together <span aria-hidden="true">↗</span></a>
+					</div>
+				</section>
+			</main>
+
+			<footer class="flex flex-col gap-6 border-t border-line py-9 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+				<p>© {new Date().getFullYear()} Ben Hayden</p>
+				<div class="flex gap-6"><a class="nav-link" href="https://github.com/benLavavein" rel="noreferrer">GitHub</a><a class="nav-link" href="https://www.linkedin.com/in/henjiman/" rel="noreferrer">LinkedIn</a></div>
+			</footer>
+		</div>
+	</body>
+</html>

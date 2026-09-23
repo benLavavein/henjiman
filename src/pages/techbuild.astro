@@ -1,0 +1,139 @@
+---
+import '../styles/global.css';
+
+const navItems = ['Home', 'About', 'Partners', 'Employers', 'Jobseekers', 'Contact'];
+const stats = [
+	{ value: '12k+', label: 'skilled candidates' },
+	{ value: '840', label: 'growing employers' },
+	{ value: '91%', label: 'successful placements' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="description" content="TechBuild connects technical talent with teams building what comes next." />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>TechBuild — Build your next chapter</title>
+	</head>
+	<body class="techbuild-page">
+		<div class="tb-shell" id="top">
+			<header class="tb-header">
+				<a class="tb-logo" href="#top" aria-label="TechBuild home"><span>TB</span>TechBuild</a>
+				<nav aria-label="Primary navigation">
+					<ul class="tb-nav">{navItems.map((item) => <li><a href={item === 'Home' ? '#top' : `#${item.toLowerCase()}`}>{item}</a></li>)}</ul>
+				</nav>
+				<a class="tb-header-cta" href="#contact">Get started <span aria-hidden="true">↗</span></a>
+			</header>
+
+			<main>
+				<section class="tb-hero">
+					<div class="tb-visual">
+						<h1 class="sr-only">TechBuild</h1>
+						<canvas id="techbuild-shader" aria-hidden="true"></canvas>
+						<p>Talent × opportunity · Build your next chapter</p>
+					</div>
+				</section>
+
+				<section class="tb-stats" id="about">
+					<p>Built for the people<br />who build everything else.</p>
+					<div class="tb-stat-grid">{stats.map((stat) => <div><strong>{stat.value}</strong><span>{stat.label}</span></div>)}</div>
+				</section>
+
+				<section class="tb-paths" id="partners">
+					<div class="tb-section-heading"><p>Choose your path</p><h2>Talent is everywhere.<br />Opportunity should be too.</h2></div>
+					<div class="tb-card-grid">
+						<article id="jobseekers"><span>01</span><h3>For jobseekers</h3><p>Find work that recognizes your skills, fits your ambitions, and moves your career forward.</p><a href="#contact">Explore opportunities →</a></article>
+						<article id="employers"><span>02</span><h3>For employers</h3><p>Meet qualified people who bring the expertise, energy, and perspective your team needs.</p><a href="#contact">Build your team →</a></article>
+					</div>
+				</section>
+			</main>
+
+			<footer id="contact"><a class="tb-logo" href="#top"><span>TB</span>TechBuild</a><p>Ready to build what’s next?</p><a href="mailto:hello@techbuild.example">hello@techbuild.example</a></footer>
+		</div>
+
+		<script>
+			import { createShader } from 'shaders/js';
+
+			const canvas = document.getElementById('techbuild-shader');
+
+			if (canvas instanceof HTMLCanvasElement) {
+				createShader(canvas, {
+					components: [
+						{ type: 'Circle', id: 'idmoz4cglxvtm21v60i', props: { center: { type: 'mouse-position', originX: 0.5, originY: 0.5, momentum: 0.35, smoothing: 0.2 }, softness: 0.5, visible: false } },
+						{ type: 'HexGrid', id: 'idmoz40cq9qk5jrget0', props: { boundingBox: { x: { value: -0.818, unit: 'uv' }, width: { value: 2, unit: 'uv' }, origin: 'center-left' }, cells: 4, colorA: '#00000000', maskSource: 'idmtwc0wqu951734dh7', maskType: 'alphaInverted', thickness: 2.9, visible: true } },
+						{ type: 'RadialGradient', id: 'idmoz439vfyk6fur01f', props: { center: { x: 0.5, y: 1 }, colorA: '#2a1408', colorB: '#080808', radius: 1.4, stops: [{ color: '#26090c', position: 0 }, { color: '#080808', position: 1 }], visible: true } },
+						{ type: 'Ripples', id: 'idmoz42klhguxmxzkx5', props: { center: { x: 0, y: 1 }, colorA: '#a83806', colorB: '#1a0f0a', frequency: 8.1, maskSource: 'idmoz40cq9qk5jrget0', opacity: 0.05, softness: 1.8, speed: 1.9, thickness: 0, visible: true } },
+						{ type: 'ChromaFlow', id: 'idmoz46tonr3qafk6rz', props: { baseColor: '#007dc5', downColor: '#ee252e', intensity: 1.5, leftColor: '#ee252e', maskSource: 'idmoz40cq9qk5jrget0', momentum: 42, radius: 3.8, rightColor: '#ee252e', upColor: '#ee252e', visible: true } },
+						{ type: 'Glow', id: 'idmoz45kmoatmnvpz46', props: { intensity: 21, size: 6, threshold: 0.1, visible: true } },
+						{ type: 'FilmGrain', id: 'idmoz45fctfp7kqmd6w', props: { strength: 0.05, visible: true } },
+						{ type: 'Text', id: 'idmtw832exo8zr7e50d', props: { center: { x: 0.64, y: 0.51 }, fontFamily: 'Fjalla One', fontSize: 0.2277, letterSpacing: 0.015, text: 'TechBuild' } },
+						{ type: 'Group', id: 'idmtwc0wqu951734dh7', props: { boundingBox: { x: { value: -0.086, unit: 'uv' }, y: { value: 0.002, unit: 'uv' } }, visible: false }, children: [
+							{ type: 'Polygon', id: 'idmtwb7gfh1k3o5jett', props: { center: { x: 0.61, y: 0.5 }, radius: 0.1755, visible: true } },
+							{ type: 'Polygon', id: 'idmtwbae2mgsq55aoew', props: { center: { x: 0.85, y: 0.5 }, radius: 0.1755, visible: true } },
+						] },
+						{ type: 'ImageTexture', id: 'idmtw9ov5r4s8vku7wt', props: { boundingBox: { x: { value: -0.3447, unit: 'uv' }, y: { value: -0.0005, unit: 'uv' }, width: { value: 0.201, unit: 'uv' }, height: { value: 0.3574, unit: 'uv' }, origin: 'center' }, url: '/images/techbuild-radio.png' } },
+						{ type: 'ImageTexture', id: 'idmtw9qcimjylaup75n', props: { boundingBox: { x: { value: -0.2229, unit: 'uv' }, y: { value: -0.1241, unit: 'uv' }, width: { value: 0.1875, unit: 'uv' }, height: { value: 0.3333, unit: 'uv' }, origin: 'center' }, url: '/images/techbuild-wind.png' } },
+						{ type: 'ImageTexture', id: 'idmtw9s37o0k2fbtqjd', props: { boundingBox: { x: { value: -0.2234, unit: 'uv' }, y: { value: 0.126, unit: 'uv' }, width: { value: 0.2036, unit: 'uv' }, height: { value: 0.362, unit: 'uv' }, origin: 'center' }, url: '/images/techbuild-transit.png' } },
+					],
+				}, { colorSpace: 'srgb' }).then((shader) => {
+					window.addEventListener('pagehide', () => shader.destroy(), { once: true });
+				}).catch(() => canvas.classList.add('tb-shader-fallback'));
+			}
+		</script>
+	</body>
+</html>
+
+<style>
+	.techbuild-page { background: #f0ede5; color: #231f20; }
+	.tb-shell { width: min(100% - 2rem, 90rem); margin: 0 auto; }
+	.tb-header { min-height: 6.5rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; border-bottom: 1px solid #cbc6bb; }
+	.tb-logo { display: inline-flex; align-items: center; gap: .75rem; font-size: 1.15rem; font-weight: 700; letter-spacing: -.03em; white-space: nowrap; }
+	.tb-logo span { display: grid; place-items: center; width: 2.35rem; height: 2.35rem; background: #ff6032; color: #231f20; border-radius: 50%; font-size: .72rem; letter-spacing: -.05em; }
+	.tb-nav { display: flex; align-items: center; gap: clamp(1rem, 2.4vw, 2.4rem); font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; }
+	.tb-nav a { transition: color 180ms ease; }
+	.tb-nav a:hover { color: #ff6032; }
+	.tb-header-cta { display: inline-flex; align-items: center; gap: 1.25rem; padding: .8rem 1.1rem .8rem 1.35rem; border: 1px solid #231f20; border-radius: 999px; font-size: .8rem; font-weight: 700; white-space: nowrap; }
+	.tb-header-cta span { font-size: 1rem; }
+	.tb-hero { width: 100vw; margin-left: calc(50% - 50vw); }
+	.tb-visual { position: relative; width: 100%; min-height: 0; overflow: hidden; aspect-ratio: 16 / 9; background: #231f20; isolation: isolate; }
+	#techbuild-shader { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
+	.tb-visual > p { position: absolute; bottom: 2rem; left: 50%; z-index: 2; color: white; font-family: var(--font-mono); font-size: .65rem; text-transform: uppercase; letter-spacing: .18em; text-align: center; transform: translateX(-50%); white-space: nowrap; }
+	.tb-shader-fallback { background: radial-gradient(circle at 70% 25%, #ff6032, transparent 45%), radial-gradient(circle at 20% 85%, #f7b955, transparent 38%), #231f20; }
+	.tb-stats { display: grid; grid-template-columns: 1fr 2fr; gap: 3rem; padding: 5rem 0; border-top: 1px solid #cbc6bb; }
+	.tb-stats > p { font-family: var(--font-mono); color: #69635e; font-size: .7rem; line-height: 1.7; text-transform: uppercase; letter-spacing: .14em; }
+	.tb-stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+	.tb-stat-grid div { padding-left: 2rem; border-left: 1px solid #cbc6bb; }
+	.tb-stat-grid strong, .tb-stat-grid span { display: block; }
+	.tb-stat-grid strong { font-size: clamp(2rem, 4vw, 4rem); letter-spacing: -.06em; }
+	.tb-stat-grid span { margin-top: .5rem; color: #69635e; font-size: .8rem; }
+	.tb-paths { padding: 7rem 0; border-top: 1px solid #cbc6bb; }
+	.tb-section-heading > p { font-family: var(--font-mono); color: #ff6032; font-size: .7rem; text-transform: uppercase; letter-spacing: .14em; }
+	.tb-section-heading h2 { max-width: 50rem; margin-top: 1.25rem; font-size: clamp(2.5rem, 5vw, 5rem); line-height: 1; letter-spacing: -.055em; }
+	.tb-card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 4rem; overflow: hidden; border-radius: 1.5rem; background: #cbc6bb; }
+	.tb-card-grid article { min-height: 24rem; display: flex; flex-direction: column; padding: clamp(2rem, 4vw, 4rem); background: #e6e1d7; }
+	.tb-card-grid article > span { font-family: var(--font-mono); color: #ff6032; font-size: .7rem; }
+	.tb-card-grid h3 { margin-top: auto; font-size: 2rem; letter-spacing: -.04em; }
+	.tb-card-grid p { max-width: 30rem; margin-top: 1rem; color: #69635e; line-height: 1.7; }
+	.tb-card-grid a { margin-top: 2rem; font-size: .8rem; font-weight: 700; }
+	footer { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding: 3rem 0; border-top: 1px solid #cbc6bb; }
+	footer > p { color: #69635e; }
+	footer > a:last-child { font-size: .85rem; font-weight: 700; }
+	@media (max-width: 960px) {
+		.tb-header { flex-wrap: wrap; padding: 1.5rem 0; }
+		.tb-header nav { order: 3; width: 100%; overflow-x: auto; }
+		.tb-nav { justify-content: space-between; min-width: 36rem; padding-bottom: .25rem; }
+	}
+	@media (max-width: 640px) {
+		.tb-shell { width: min(100% - 1.25rem, 90rem); }
+		.tb-header-cta { display: none; }
+		.tb-stats { grid-template-columns: 1fr; }
+		.tb-stat-grid { gap: 1.25rem; }
+		.tb-stat-grid div { padding-left: 1rem; }
+		.tb-card-grid { grid-template-columns: 1fr; }
+		footer { align-items: flex-start; flex-direction: column; }
+	}
+</style>
