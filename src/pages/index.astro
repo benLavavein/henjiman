@@ -1,4 +1,5 @@
 ---
+import ProjectCard from '../components/ProjectCard.astro';
 import '../styles/global.css';
 ---
 
@@ -19,13 +20,58 @@ import '../styles/global.css';
 			</header>
 			<main id="top">
 				<section class="grid min-h-[76vh] content-center py-20 sm:py-28"><div class="max-w-5xl">
-					<p class="eyebrow animate-in">Software developer · Builder · Problem solver</p>
-					<h1 class="mt-7 max-w-5xl text-balance text-[clamp(3.4rem,9vw,8rem)] font-semibold leading-[0.9] tracking-[-0.07em] animate-in delay-1">I am henjiman<br />I build incredible things for the web.</h1>
-					<p class="mt-9 max-w-3xl text-pretty text-lg leading-8 text-muted animate-in delay-2 sm:text-xl">I’m Ben, a developer who can push your ideas to become finished products. My passion is staying up to date with the latest in web development and creating resilient, dependable software that blows you away.</p>
+					<h1 class="max-w-5xl text-balance font-medium leading-[0.98] tracking-[-0.06em] animate-in delay-1"><span class="block text-[clamp(2.5rem,5.2vw,4.5rem)]">I’m Ben.</span><span class="mt-[0.22em] block text-[clamp(3rem,7.2vw,6.5rem)]">I bring <strong class="font-bold text-accent">ideas to life</strong> on the web.</span></h1>
+					<p class="mt-9 max-w-3xl text-pretty text-lg leading-8 text-muted animate-in delay-2 sm:text-xl">I build web applications from idea to release, with a focus on dependable software and thoughtful details. Contact me anytime; I’d love to work with you!</p>
 					<div class="mt-10 animate-in delay-3"><a class="button-primary" href="mailto:ben@lavavein.com">Let’s talk <span aria-hidden="true">↗</span></a></div>
 				</div></section>
+				<section class="border-t border-line py-20 sm:py-28" aria-labelledby="selected-work">
+					<div class="section-grid mb-12 sm:mb-16">
+						<div><p class="eyebrow">Selected work</p><h2 id="selected-work" class="section-heading">A closer look at what I’ve built.</h2></div>
+						<p class="max-w-2xl self-end text-lg leading-8 text-muted">A few of the products I’ve helped take from an idea to something people use.</p>
+					</div>
+					<div class="space-y-8">
+						<ProjectCard
+							title="SquareRigger Fleet Maintenance"
+							role="Lead Developer"
+							description="A fleet operations platform for managing equipment, maintenance, work orders, parts, inventory, purchasing, inspections, fuel, and reporting."
+							href="/work/squarerigger/"
+							tags={['React', 'TypeScript', 'PostgreSQL', 'AWS']}
+							imageSrc="/images/squarerigger-work-order.png"
+							imageAlt="SquareRigger work-order workspace showing services, parts, invoice totals, accounting settings, and fleet navigation"
+						/>
+						<ProjectCard
+							title="Scope"
+							role="Sole Developer"
+							description="A school budgeting system built for Meteor Education that turns enrollment, facility, and asset requirements into detailed, adjustable project estimates."
+							href="/work/meteor-scope/"
+							tags={['Laravel', 'PHP', 'Livewire', 'Tailwind CSS']}
+							imageSrc="/images/scope-estimate-editor.png"
+							imageAlt="Scope estimate editor showing project information, facility categories, team assignments, and a live budget summary"
+							mediaPosition="right"
+						/>
+						<ProjectCard
+							title="Mattheessen’s"
+							role="Web Developer"
+							description="A responsive website and online-ordering refresh for a family-owned Key West bakery, including reliable PayPal checkout and order-confirmation emails."
+							href="/work/mattheessens/"
+							tags={['HTML', 'CSS', 'JavaScript', 'PayPal', 'Resend']}
+							imageSrc="/images/mattheessens-homepage.png"
+							imageAlt="Mattheessen’s bakery homepage with its branding, navigation, and bakery oven hero image"
+						/>
+						<ProjectCard
+							title="Southernmost Point Guest House"
+							role="Web Developer"
+							description="A complete website redesign for a historic Key West guest house, rebuilt as a responsive Astro site with reusable content and dependable inquiry emails."
+							href="/work/southernmost-point/"
+							tags={['Astro', 'TypeScript', 'Tailwind CSS', 'Resend']}
+							imageSrc="/images/southernmost-point-homepage.png"
+							imageAlt="Southernmost Point Guest House homepage showing the historic guest house and garden"
+							mediaPosition="right"
+						/>
+					</div>
+				</section>
 			</main>
-			<footer class="flex flex-col gap-6 border-t border-line py-9 text-sm text-muted sm:flex-row sm:items-center sm:justify-between"><p>© {new Date().getFullYear()} Ben Hayden</p><div class="flex gap-6"><a class="nav-link" href="https://github.com/benLavavein" rel="noreferrer">GitHub</a><a class="nav-link" href="https://www.linkedin.com/in/henjiman/" rel="noreferrer">LinkedIn</a></div></footer>
+			<footer class="flex flex-col gap-6 border-t border-line py-9 text-sm text-muted sm:flex-row sm:items-center sm:justify-between"><p>© {new Date().getFullYear()} Ben Hayden</p><div class="flex gap-6"><a class="nav-link" href="https://github.com/benLavavein" target="_blank" rel="noreferrer">GitHub</a><a class="nav-link" href="https://www.linkedin.com/in/henjiman/" target="_blank" rel="noreferrer">LinkedIn</a></div></footer>
 		</div>
 	</body>
 </html>

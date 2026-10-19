@@ -1,0 +1,36 @@
+---
+import CaseStudyPage from '../../components/CaseStudyPage.astro';
+
+const sections = [
+	{ number: '01', title: 'The product', content: 'Scope is a school budgeting system built for Meteor Education that helps teams turn project requirements into detailed estimates. Reusable school, facility, and asset templates provide a starting point, while enrollment, grade ranges, quality levels, and project-specific adjustments shape the final budget.' },
+	{ number: '02', title: 'My role', content: 'I was the sole developer responsible for building the application from the ground up. I owned the technical architecture, database design, backend, frontend implementation, calculation logic, testing, and deployment. The visual designs were supplied, and I translated them into the finished product. I met weekly with the Meteor Education team to review progress, clarify requirements, and make sure my technical decisions matched the direction of the product.' },
+	{ number: '03', title: 'Modeling complex rules', content: 'The core challenge was turning a large set of connected budgeting rules into an interface that remained understandable and responsive. I built a central calculation system so estimates, dashboards, charts, shared views, and PDFs all used consistent numbers.' },
+	{ number: '04', title: 'Building for real use', content: 'Beyond the main estimate workflow, I built the administrative tools needed to operate the product, including authentication and permissions, data imports, template management, user administration, shareable estimates, PDF generation, and background processing for larger jobs.' },
+];
+
+const technologies = ['Laravel 12', 'PHP 8.3', 'Livewire 3', 'Blade', 'Tailwind CSS 4', 'JavaScript', 'Chart.js', 'Vite', 'Pest', 'PHPStan', 'Laravel Forge'];
+---
+
+<CaseStudyPage
+	pageTitle="Scope — Ben Hayden"
+	description="A case study of Ben Hayden’s end-to-end development work on Scope, a school budgeting application built for Meteor Education."
+	eyebrow="Selected work · Scope"
+	heading="Building a school budgeting system from the ground up."
+	introduction="I built Scope for Meteor Education as the sole developer, turning supplied designs and a complex set of budgeting requirements into a complete web application."
+	role="Sole Developer"
+	product="School budgeting system"
+	company="Meteor Education"
+	companyUrl="https://meteoreducation.com/"
+	imageTitle="Product screenshots will live here."
+	imageDescription="The layout is ready for an overview of the estimate builder, budget breakdowns, and administrative tools once we choose what can be shown publicly."
+	skillsIntroduction="This project required independent ownership across application architecture, relational data modeling, interactive interfaces, calculation logic, authentication, imports, document generation, testing, and production deployment."
+	{technologies}
+	{sections}
+>
+	<img
+		slot="media"
+		class="block h-auto w-full"
+		src="/images/scope-estimate-editor.png"
+		alt="Scope estimate editor showing project information, facility categories, team assignments, and a live budget summary"
+	/>
+</CaseStudyPage>

@@ -1,0 +1,28 @@
+---
+import CaseStudyPage from '../../components/CaseStudyPage.astro';
+
+const sections = [
+	{ number: '01', title: 'The project', content: 'Mattheessen’s is a family-owned bakery with locations in Key West and Nashville. I refreshed the existing website to better present its products, locations, story, and online ordering experience across desktop and mobile.' },
+	{ number: '02', title: 'Checkout and payments', content: 'A major part of the work was making the online-ordering flow dependable. I repaired and updated the PayPal integration, added server-side order verification, and improved the checkout experience so order details and totals stayed consistent through payment.' },
+	{ number: '03', title: 'Order communication', content: 'I rebuilt the order-confirmation flow to send clear, branded emails to both the customer and the business. The emails include the information each recipient needs while safely handling customer and order data.' },
+];
+
+const technologies = ['HTML', 'CSS', 'JavaScript', 'PayPal', 'Resend', 'Vercel'];
+---
+
+<CaseStudyPage
+	pageTitle="Mattheessen’s — Ben Hayden"
+	description="A case study of Ben Hayden’s website redesign, PayPal integration, and order-confirmation work for Mattheessen’s."
+	eyebrow="Selected work · Mattheessen’s"
+	heading="Refreshing a local brand and making online orders more reliable."
+	introduction="I refreshed Mattheessen’s website and ordering experience, improving the responsive presentation while fixing the PayPal checkout and email-confirmation systems behind it."
+	role="Web Developer"
+	product="Marketing and e-commerce website"
+	company="Mattheessen’s"
+	companyUrl="https://www.mattskeywest.com/"
+	imageTitle="Project screenshots will live here."
+	imageDescription="The layout is ready for a homepage view and a closer look at the refreshed ordering experience."
+	skillsIntroduction="This project combined responsive frontend work with payment integration, serverless order verification, transactional email delivery, and production deployment."
+	{technologies}
+	{sections}
+/>
