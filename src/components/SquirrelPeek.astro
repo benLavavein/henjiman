@@ -1,31 +1,127 @@
-<div class="squirrel-peek" aria-hidden="true" transition:persist="woodland-squirrel" transition:animate="none"><img src="/images/grey-squirrel.png" alt="" /></div>
+<button class="squirrel-peek" type="button" aria-label="Make the squirrel blink" inert transition:persist="woodland-squirrel" transition:animate="none">
+  <img class="squirrel-side" src="/images/grey-squirrel.png" alt="" width="1345" height="1169" />
+  <img class="squirrel-closed" src="/images/grey-squirrel-closed.png" alt="" width="1345" height="1169" />
+  <img class="squirrel-camera" src="/images/grey-squirrel-camera.png" alt="" width="1345" height="1169" />
+  <img class="squirrel-camera-closed" src="/images/grey-squirrel-camera-closed.png" alt="" width="1345" height="1169" />
+</button>
 
 <script>
   function setupSquirrel() {
-  const squirrel = document.querySelector<HTMLElement>('.squirrel-peek');
-  const oak = document.querySelector<HTMLElement>('.oak-branch');
-  if (squirrel && oak) {
+    const squirrel = document.querySelector<HTMLElement>('.squirrel-peek');
+    const oak = document.querySelector<HTMLElement>('.oak-branch');
+    if (!squirrel || !oak) return;
+
     const controller = new AbortController();
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
     let frame = 0;
+    let blinkTimer = 0;
+    let reopenTimer = 0;
+    let turnTimer = 0;
+    let turnBackTimer = 0;
+    let glanceBlinkTimer = 0;
+    const clearBlink = () => {
+      clearTimeout(blinkTimer);
+      clearTimeout(reopenTimer);
+      blinkTimer = 0;
+      reopenTimer = 0;
+      squirrel.classList.remove('blinking');
+    };
+    const clearTurn = () => {
+      clearTimeout(turnTimer);
+      clearTimeout(turnBackTimer);
+      clearTimeout(glanceBlinkTimer);
+      turnTimer = 0;
+      turnBackTimer = 0;
+      glanceBlinkTimer = 0;
+      squirrel.classList.remove('looking-camera');
+    };
+    const scheduleBlink = () => {
+      if (blinkTimer || reopenTimer || !squirrel.classList.contains('visible') || document.hidden || reducedMotion.matches) return;
+      blinkTimer = window.setTimeout(() => blink(false), 3500 + Math.random() * 5000);
+    };
+    const blink = (manual: boolean) => {
+      if (reopenTimer || !squirrel.classList.contains('visible') || (!manual && reducedMotion.matches)) return;
+      clearTimeout(blinkTimer);
+      blinkTimer = 0;
+      squirrel.classList.add('blinking');
+      reopenTimer = window.setTimeout(() => {
+        squirrel.classList.remove('blinking');
+        reopenTimer = 0;
+        scheduleBlink();
+      }, 100);
+    };
+    const scheduleTurn = () => {
+      if (turnTimer || turnBackTimer || !squirrel.classList.contains('visible') || document.hidden || reducedMotion.matches) return;
+      turnTimer = window.setTimeout(() => {
+        turnTimer = 0;
+        const glanceLength = 3000 + Math.random() * 2500;
+        squirrel.classList.add('looking-camera');
+        glanceBlinkTimer = window.setTimeout(() => {
+          glanceBlinkTimer = 0;
+          blink(false);
+        }, Math.min(1000, glanceLength / 2));
+        turnBackTimer = window.setTimeout(() => {
+          turnBackTimer = 0;
+          squirrel.classList.remove('looking-camera');
+          scheduleTurn();
+        }, glanceLength);
+      }, 11000 + Math.random() * 8000);
+    };
     const update = () => {
       frame = 0;
       squirrel.classList.toggle('visible', oak.getBoundingClientRect().bottom < -24);
+      squirrel.inert = !squirrel.classList.contains('visible');
+      if (squirrel.classList.contains('visible')) {
+        scheduleBlink();
+        scheduleTurn();
+      } else {
+        clearBlink();
+        clearTurn();
+      }
     };
     const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    squirrel.addEventListener('click', () => blink(true), { signal: controller.signal });
     window.addEventListener('scroll', schedule, { passive: true, signal: controller.signal });
     window.addEventListener('resize', schedule, { passive: true, signal: controller.signal });
     window.addEventListener('load', schedule, { signal: controller.signal });
-    document.addEventListener('astro:before-swap', () => { controller.abort(); cancelAnimationFrame(frame); }, { once: true });
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        clearBlink();
+        clearTurn();
+      } else {
+        scheduleBlink();
+        scheduleTurn();
+      }
+    }, { signal: controller.signal });
+    reducedMotion.addEventListener('change', () => {
+      clearBlink();
+      clearTurn();
+      scheduleBlink();
+      scheduleTurn();
+    }, { signal: controller.signal });
+    document.addEventListener('astro:before-swap', () => {
+      controller.abort();
+      cancelAnimationFrame(frame);
+      clearBlink();
+      clearTurn();
+    }, { once: true });
     update();
-  }
   }
   document.addEventListener('astro:page-load', setupSquirrel);
 </script>
 
 <style>
-  .squirrel-peek { position: fixed; right: -4px; top: 8%; width: clamp(100px, 11vw, 175px); z-index: 4; pointer-events: none; transform: translateX(110%) rotate(8deg); transform-origin: right bottom; transition: transform 1.2s cubic-bezier(.22, 1, .36, 1); }
-  .squirrel-peek.visible { transform: translateX(0) rotate(0); }
+  .squirrel-peek { position: fixed; right: -4px; top: 8%; width: clamp(100px, 11vw, 175px); z-index: 4; padding: 0; border: 0; background: none; pointer-events: none; cursor: pointer; touch-action: manipulation; transform: translateX(110%) rotate(8deg); transform-origin: right bottom; transition: transform 1.2s cubic-bezier(.22, 1, .36, 1); }
+  .squirrel-peek.visible { pointer-events: auto; transform: translateX(0) rotate(0); }
+  .squirrel-peek:focus-visible { outline: 2px solid #526744; outline-offset: 4px; }
   img { display: block; width: 100%; height: auto; }
+  .squirrel-closed, .squirrel-camera, .squirrel-camera-closed { position: absolute; inset: 0; visibility: hidden; }
+  .squirrel-peek.looking-camera .squirrel-side,
+  .squirrel-peek.blinking:not(.looking-camera) .squirrel-side,
+  .squirrel-peek.looking-camera.blinking .squirrel-camera { visibility: hidden; }
+  .squirrel-peek.blinking:not(.looking-camera) .squirrel-closed,
+  .squirrel-peek.looking-camera:not(.blinking) .squirrel-camera,
+  .squirrel-peek.looking-camera.blinking .squirrel-camera-closed { visibility: visible; }
   @media (max-width: 650px) { .squirrel-peek { width: 85px; top: 6%; } }
   @media (prefers-reduced-motion: reduce) { .squirrel-peek { transition: none; } }
 </style>
