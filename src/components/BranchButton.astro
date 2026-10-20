@@ -1,0 +1,44 @@
+---
+interface Props { href: string; label: string; }
+const { href, label } = Astro.props;
+const budShapes = [
+  'M0 0C-13-8-14-24-4-34C9-27 14-11 0 0Z',
+  'M0 0C-7-12-12-26-4-34C5-25 8-9 0 0Z',
+  'M0 0C-17-6-17-22-4-34C3-25 16-23 12-13Q9-3 0 0Z',
+];
+---
+
+    <a class="branch-button" href={href}>
+      <span>{label}</span>
+      <svg viewBox="0 0 360 110" aria-hidden="true" fill="none">
+        <path class="branch-base" pathLength="1" d="M30 84Q160 65 325 78M36 88L55 80M276 75L296 82"/>
+        <path class="branch-highlight" pathLength="1" d="M30 85Q160 68 325 79" stroke="#b79c6d" stroke-width="1"/>
+        <g class="branch-growth">
+          {['M55 79Q30 60 21 34', 'M80 76Q56 56 63 33', 'M295 76Q325 58 331 27', 'M317 78Q344 73 353 54'].map((d, i) => <path pathLength="1" d={d} style={`--growth-delay: ${i * 75}ms`}/>)}
+        </g>
+        <g class="new-leaves">
+          {[
+            { x: 21, y: 35, angle: -65 }, { x: 32, y: 53, angle: 25 },
+            { x: 63, y: 34, angle: -35 }, { x: 329, y: 34, angle: -15 },
+            { x: 323, y: 53, angle: 65 }, { x: 349, y: 60, angle: 25 },
+          ].map(({ x, y, angle }, i) => <g transform={`translate(${x} ${y}) rotate(${angle})`}>
+            <g class="unfolding-leaf" style={`--leaf-delay: ${260 + i * 90}ms`}>
+              <path d={budShapes[[0, 2, 1, 0, 1, 2][i]]}/>
+              <path d="M0 0Q-2-17-4-30M-2-11L-8-18M-3-18L2-24" fill="none" stroke="#c1c88f" stroke-width=".65"/>
+            </g>
+          </g>)}
+        </g>
+      </svg>
+    </a>
+<style>
+  .branch-button { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 320px; max-width: 100%; height: 100px; margin: 25px 0 0 -22px; color: #344a32; border-radius: 20px; }
+  .branch-button > span { margin-top: 5px; font-size: 1.05rem; font-weight: 600; letter-spacing: .02em; }
+  .branch-button svg { position: absolute; inset: 0; height: 100%; width: 100%; overflow: visible; pointer-events: none; }
+  .branch-base, .branch-growth { stroke: #766044; stroke-width: 3; stroke-linecap: round; }
+  .branch-growth path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .6s ease; }
+  .new-leaves { fill: #60794b; }
+  .unfolding-leaf { opacity: 0; transform: scale(.05, .15) rotate(-25deg); transform-origin: 0 0; transition: transform .4s ease, opacity .25s ease; }
+  .branch-button:is(:hover, :focus-visible) .branch-growth path { stroke-dashoffset: 0; transition-duration: .9s; transition-delay: var(--growth-delay); }
+  .branch-button:is(:hover, :focus-visible) .unfolding-leaf { opacity: 1; transform: scale(1) rotate(0); transition: transform 1s cubic-bezier(.2,.8,.3,1.3) var(--leaf-delay), opacity .4s ease var(--leaf-delay); }
+  @media (prefers-reduced-motion: reduce) { .branch-button * { transition: none !important; } .branch-growth path { stroke-dashoffset: 0; } .unfolding-leaf { opacity: 1; transform: none; } }
+</style>

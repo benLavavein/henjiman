@@ -70,6 +70,8 @@ const fernShape = (width: number, type: number) => [
         </g>
       </g>
     </g>)}
+  </svg>
+  <svg class="forest-frame forest-floor" viewBox="0 800 1600 300" fill="none">
     {[{ x: 75, y: 1120, flip: 1 }, { x: 185, y: 1170, flip: 1 }, { x: 1450, y: 1150, flip: -1 }, { x: 1570, y: 1120, flip: -1 }].map(({ x, y, flip }, index) => <g data-depth="0" class="plant-enter" style={`--enter-y: 300px; --enter-delay: ${.3 + index * .09}s`}>
       <g transform={`translate(${x} ${y}) scale(${flip} 1)`}>
         <g class="fern" style={sway(x + 211)}>
@@ -160,6 +162,7 @@ const fernShape = (width: number, type: number) => [
   .woodland-surround { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: #efeee4; }
   .forest-haze { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, #f5f2e9 20%, transparent 75%), linear-gradient(110deg, #bdc6a8, #f5f0db 48%, #b5c0a0); }
   .forest-frame { position: absolute; height: 100%; width: 100%; filter: drop-shadow(5px 13px 9px #233c3020); }
+  .forest-floor { bottom: 0; height: auto; aspect-ratio: 16 / 3; overflow: visible; transform-origin: center bottom; }
   .distant-canopy { filter: blur(9px); }
   .plant-enter { animation: plant-arrive 1.8s var(--enter-delay, 0s) cubic-bezier(.22, 1, .36, 1) both; }
   @keyframes plant-arrive { from { translate: var(--enter-x, 0px) var(--enter-y, 0px); } to { translate: 0 0; } }
