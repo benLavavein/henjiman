@@ -5,13 +5,12 @@ interface Props {
 	role: string;
 	description: string;
 	href: string;
-	tags: string[];
 	imageSrc?: string;
 	imageAlt?: string;
 	mediaPosition?: 'left' | 'right';
 }
 
-const { title, subtitle, role, description, href, tags, imageSrc, imageAlt = '', mediaPosition = 'left' } = Astro.props;
+const { title, subtitle, role, description, href, imageSrc, imageAlt = '', mediaPosition = 'left' } = Astro.props;
 const mediaOrder = mediaPosition === 'right' ? 'lg:order-2' : '';
 const contentOrder = mediaPosition === 'right' ? 'lg:order-1' : '';
 const gridColumns = mediaPosition === 'right' ? 'lg:grid-cols-[0.85fr_1.15fr]' : 'lg:grid-cols-[1.15fr_0.85fr]';
@@ -19,8 +18,8 @@ const mediaBorder = mediaPosition === 'right' ? 'border-b border-line lg:border-
 ---
 
 <article class="group overflow-hidden rounded-3xl border border-line bg-card">
-	<a class:list={['grid', gridColumns]} href={href} aria-label={`View ${title} case study`}>
-		<div class:list={['relative aspect-[16/9] overflow-hidden lg:aspect-auto lg:min-h-80', mediaOrder, imageSrc ? `${mediaBorder} bg-[#181a19]` : 'bg-[#181a19] p-6 sm:p-10']}>
+	<a class:list={['grid', gridColumns]} href={href} aria-label={`View ${title} project`}>
+		<div class:list={['relative aspect-[16/9] overflow-hidden lg:aspect-auto lg:min-h-80', mediaOrder, imageSrc ? `${mediaBorder} bg-[#d1d6c4]` : 'bg-[#181a19] p-6 sm:p-10']}>
 			{imageSrc ? <div class="absolute inset-3 overflow-hidden rounded-xl sm:inset-5"><img class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.015]" src={imageSrc} alt={imageAlt} loading="lazy" /></div> : <>
 				<div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(166,79,54,0.2),transparent_34%),radial-gradient(circle_at_80%_80%,rgba(243,241,235,0.12),transparent_38%)]"></div>
 				<div class="relative flex h-full min-h-68 items-center justify-center overflow-hidden rounded-2xl border border-white/15 bg-white/5 transition-transform duration-500 group-hover:scale-[1.015] sm:min-h-[25rem]">
@@ -39,9 +38,8 @@ const mediaBorder = mediaPosition === 'right' ? 'border-b border-line lg:border-
 				<h3 class="text-3xl font-semibold tracking-[-0.05em] sm:text-4xl">{title}</h3>
 				<p class="mt-2 text-lg text-muted">{subtitle}</p>
 				<p class="mt-4 max-w-lg text-base leading-7 text-muted">{description}</p>
-				<ul class="mt-5 flex flex-wrap gap-2" aria-label="Project areas">{tags.map((tag) => <li class="tag">{tag}</li>)}</ul>
 			</div>
-			<span class="mt-6 inline-flex items-center gap-3 text-sm font-semibold">View case study <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span></span>
+			<span class="mt-6 inline-flex items-center gap-3 text-sm font-semibold">View project <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span></span>
 		</div>
 	</a>
 </article>

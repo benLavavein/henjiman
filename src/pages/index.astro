@@ -4,6 +4,7 @@ import WoodlandHero from '../components/WoodlandHero.astro';
 import WoodlandChrome from '../components/WoodlandChrome.astro';
 import WoodlandInit from '../components/WoodlandInit.astro';
 import ShareMeta from '../components/ShareMeta.astro';
+import FaviconLinks from '../components/FaviconLinks.astro';
 import '../styles/global.css';
 ---
 
@@ -15,7 +16,7 @@ import '../styles/global.css';
 		<meta name="viewport" content="width=device-width" />
 		<meta name="description" content="Ben Hayden is a software developer building useful, dependable products for the web." />
 		<ShareMeta title="Ben Hayden — Software Developer" description="I bring ideas to life on the web. Explore my projects and get in touch." />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<FaviconLinks />
 		<meta name="generator" content={Astro.generator} />
 		<title>Ben Hayden — Software Developer</title>
 	</head>
@@ -24,7 +25,7 @@ import '../styles/global.css';
 		<div class="page-shell">
 			<main id="top">
 				<WoodlandHero />
-				<section class="border-t border-line py-20 sm:py-28" aria-labelledby="selected-work">
+				<section class="pt-10 pb-20 sm:pt-14 sm:pb-28" aria-labelledby="selected-work">
 					<div class="mb-12 sm:mb-16">
 						<h2 id="selected-work" class="mt-5 text-4xl font-semibold leading-tight tracking-[-0.045em] sm:text-5xl">Here are some projects I've been a part of:</h2>
 					</div>
@@ -35,7 +36,6 @@ import '../styles/global.css';
 							role="Lead Developer"
 							description="A fleet operations platform for managing equipment, maintenance, work orders, parts, inventory, purchasing, inspections, fuel, and reporting."
 							href="/work/squarerigger/"
-							tags={['React', 'TypeScript', 'PostgreSQL', 'AWS']}
 							imageSrc="/images/squarerigger-work-order.png"
 							imageAlt="Squarerigger work-order workspace showing services, parts, invoice totals, accounting settings, and fleet navigation"
 						/>
@@ -45,18 +45,16 @@ import '../styles/global.css';
 							role="Sole Developer"
 							description="A school budgeting system built for Meteor Education that turns enrollment, facility, and asset requirements into detailed, adjustable project estimates."
 							href="/work/meteor-scope/"
-							tags={['Laravel', 'PHP', 'Livewire', 'Tailwind CSS']}
 							imageSrc="/images/scope-estimate-editor.png"
 							imageAlt="Scope estimate editor showing project information, facility categories, team assignments, and a live budget summary"
 							mediaPosition="right"
 						/>
 						<ProjectCard
 							title="Mattheessen’s"
-							subtitle="Family-owned sweets shop"
+							subtitle="Family-owned sweets shoppe"
 							role="Web Developer"
-							description="A responsive website and online-ordering refresh for a family-owned Key West bakery, including reliable PayPal checkout and order-confirmation emails."
+							description="A responsive website and online-ordering refresh for a family-owned bakery, including reliable PayPal checkout and order-confirmation emails."
 							href="/work/mattheessens/"
-							tags={['HTML', 'CSS', 'JavaScript']}
 							imageSrc="/images/mattheessens-homepage.png"
 							imageAlt="Mattheessen’s bakery homepage with its branding, navigation, and bakery oven hero image"
 						/>
@@ -66,7 +64,6 @@ import '../styles/global.css';
 							role="Web Developer"
 							description="A complete website redesign for a historic Key West guest house, rebuilt as a responsive Astro site with reusable content and dependable inquiry emails."
 							href="/work/southernmost-point/"
-							tags={['Astro', 'TypeScript', 'Tailwind CSS']}
 							imageSrc="/images/southernmost-point-homepage.png"
 							imageAlt="Southernmost Point Guest House homepage showing the historic guest house and garden"
 							mediaPosition="right"

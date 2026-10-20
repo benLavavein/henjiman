@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import FaviconLinks from '../components/FaviconLinks.astro';
 
 const navItems = ['Home', 'About', 'Partners', 'Employers', 'Jobseekers', 'Contact'];
 const stats = [
@@ -15,7 +16,7 @@ const stats = [
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="description" content="TechBuild connects technical talent with teams building what comes next." />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<FaviconLinks />
 		<meta name="generator" content={Astro.generator} />
 		<title>TechBuild — Build your next chapter</title>
 	</head>

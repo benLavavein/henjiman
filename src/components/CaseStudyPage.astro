@@ -3,6 +3,7 @@ import '../styles/global.css';
 import WoodlandChrome from './WoodlandChrome.astro';
 import WoodlandInit from './WoodlandInit.astro';
 import ShareMeta from './ShareMeta.astro';
+import FaviconLinks from './FaviconLinks.astro';
 
 interface CaseStudySection {
 	number: string;
@@ -18,6 +19,8 @@ interface Props {
 	subtitle: string;
 	introduction: string;
 	role: string;
+	teamName?: string;
+	teamUrl?: string;
 	projectLinkLabel: 'See the site live' | 'Learn more';
 	companyUrl?: string;
 	shareImage: string;
@@ -34,6 +37,8 @@ const {
 	subtitle,
 	introduction,
 	role,
+	teamName,
+	teamUrl,
 	projectLinkLabel,
 	companyUrl,
 	shareImage,
@@ -53,7 +58,7 @@ const hasMedia = Astro.slots.has('media');
 		<meta name="viewport" content="width=device-width" />
 		<meta name="description" content={description} />
 		<ShareMeta title={pageTitle} description={description} image={shareImage} imageAlt={`${heading} project screenshot`} />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<FaviconLinks />
 		<meta name="generator" content={Astro.generator} />
 		<title>{pageTitle}</title>
 	</head>
@@ -69,7 +74,7 @@ const hasMedia = Astro.slots.has('media');
 					<p class="mt-5 text-2xl text-muted animate-in delay-1 sm:text-3xl">{subtitle}</p>
 					<p class="mt-9 max-w-3xl text-pretty text-lg leading-8 text-muted animate-in delay-2 sm:text-xl">{introduction}</p>
 					<div class="mt-10 flex flex-wrap items-end gap-x-16 gap-y-6 animate-in delay-3">
-						<div><p class="text-sm text-muted">My Role</p><p class="mt-2 text-lg font-semibold">{role}</p></div>
+						<div><p class="text-sm text-muted">My Role</p><p class="mt-2 text-lg font-semibold">{role}</p>{teamName && teamUrl && <p class="mt-1 text-sm text-muted">Alongside the <a class="nav-link underline underline-offset-4" href={teamUrl} target="_blank" rel="noopener noreferrer">{teamName}</a> team</p>}</div>
 						{companyUrl && <a class="nav-link inline-flex items-center gap-2 text-lg leading-7 font-semibold underline decoration-line underline-offset-4" href={companyUrl} target="_blank" rel="noopener noreferrer">{projectLinkLabel} <span aria-hidden="true">↗</span></a>}
 					</div>
 				</section>

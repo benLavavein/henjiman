@@ -9,7 +9,7 @@ const budShapes = [
 <section class="woodland-hero" aria-labelledby="hero-title">
   <div class="hero-copy">
     <h1 id="hero-title"><span class="introduction">I’m Ben.</span><span class="headline-part headline-start">I bring</span> <strong class="headline-part headline-emphasis">ideas to life</strong> <span class="headline-part headline-end">on the web.</span></h1>
-    <p>I build web applications from idea to release, with a focus on dependable software and thoughtful details. Contact me anytime; I’d love to work with you!</p>
+    <p>I build web applications from idea to release, with a focus on dependable software and thoughtful details. Contact me anytime—I’d love to work with you!</p>
     <a class="branch-button" href="/contact/">
       <span>Let’s talk</span>
       <svg viewBox="0 0 280 110" aria-hidden="true" fill="none">
@@ -36,7 +36,7 @@ const budShapes = [
 </section>
 
 <style>
-  .woodland-hero { position: relative; isolation: isolate; min-height: 780px; display: flex; align-items: center; padding: 70px 0 130px; }
+  .woodland-hero { position: relative; isolation: isolate; min-height: 700px; display: flex; align-items: center; padding: 70px 0 75px; }
   .hero-copy { position: relative; max-width: 760px; z-index: 2; }
   h1 { font-size: clamp(3.3rem, 6.7vw, 6.6rem); line-height: 1.04; letter-spacing: -.055em; font-weight: 500; text-wrap: balance; }
   .introduction { display: block; font-family: var(--font-sans); font-size: .44em; letter-spacing: -.04em; margin-bottom: .7em; }
@@ -67,6 +67,6 @@ const budShapes = [
   @media (hover: none) and (pointer: coarse) { .branch-growth path { stroke-dashoffset: 0; } .unfolding-leaf { opacity: 1; transform: scale(1) rotate(0); } }
   @media (max-width: 1000px) { .hero-copy { max-width: 650px; } }
   @media (max-width: 900px) { .hero-copy { width: 100%; margin-inline: auto; } .branch-button { display: flex; margin-inline: auto; } }
-  @media (max-width: 640px) { .woodland-hero { min-height: 720px; padding-top: 35px; } p { font-size: 1rem; } }
+  @media (max-width: 640px) { .woodland-hero { min-height: 640px; padding-top: 35px; } p { font-size: 1rem; } }
   @media (prefers-reduced-motion: reduce) { .introduction, .headline-part, .hero-copy > p, .branch-button, .branch-base, .branch-highlight { animation: none; } .branch-button * { transition: none !important; } .branch-growth path { stroke-dashoffset: 0; } .unfolding-leaf { opacity: 1; transform: none; } }
 </style>
