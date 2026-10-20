@@ -1,0 +1,55 @@
+---
+import '../styles/global.css';
+import WoodlandChrome from '../components/WoodlandChrome.astro';
+import WoodlandInit from '../components/WoodlandInit.astro';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <WoodlandInit />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="Get in touch with Ben Hayden about your next web project." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Contact — Ben Hayden</title>
+  </head>
+  <body class="woodland-page">
+    <WoodlandChrome />
+    <div class="page-shell">
+      <main>
+        <section class="grid min-h-[72vh] content-center gap-14 py-20 sm:py-28 lg:grid-cols-2 lg:gap-24">
+          <div class="animate-in delay-1">
+            <h1 class="text-[clamp(3.5rem,7vw,7rem)] font-semibold leading-[0.9] tracking-[-0.065em]">Let’s talk.</h1>
+            <p class="mt-8 max-w-md text-lg leading-8 text-muted">Have something in mind? I’d love to hear about it.</p>
+            <address class="mt-10 space-y-4 not-italic text-lg">
+              <p class="font-semibold">Ben Hayden</p>
+              <p><a class="nav-link underline underline-offset-4" href="mailto:bendanielhayden@gmail.com">bendanielhayden@gmail.com</a></p>
+              <div class="flex gap-6">
+                <a class="nav-link underline underline-offset-4" href="https://github.com/benLavavein" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a class="nav-link underline underline-offset-4" href="https://www.linkedin.com/in/henjiman/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+              </div>
+            </address>
+          </div>
+          <form class="contact-form space-y-6 animate-in delay-2" aria-label="Contact Ben" aria-describedby="form-notice" onsubmit="event.preventDefault()">
+            <div><label for="contact-name">Name</label><input id="contact-name" name="name" autocomplete="name" placeholder="What do you go by?" /></div>
+            <div><label for="contact-email">Email</label><input id="contact-email" name="email" type="email" autocomplete="email" placeholder="youremail@domain.com" /></div>
+            <div><label for="contact-message">Message</label><textarea id="contact-message" name="message" rows="5" placeholder="What do you want to build?"></textarea></div>
+            <p id="form-notice" class="text-sm leading-6 text-muted">This form isn’t sending messages yet. For now, please email me directly.</p>
+            <button class="button-primary" type="button" disabled>Send message</button>
+          </form>
+        </section>
+      </main>
+      <footer class="border-t border-line py-9 text-sm text-muted">© {new Date().getFullYear()} Ben Hayden</footer>
+    </div>
+  </body>
+</html>
+
+<style>
+  .contact-form label { display: block; margin-bottom: 10px; font-weight: 600; }
+  .contact-form input, .contact-form textarea { display: block; width: 100%; border: 1px solid #71816560; border-radius: 12px; padding: 14px 16px; background: #f3f1eb; color: #243e30; font: inherit; }
+  .contact-form textarea { resize: vertical; min-height: 150px; }
+  .contact-form input::placeholder, .contact-form textarea::placeholder { color: #626b5d; opacity: 1; }
+  .contact-form input:focus-visible, .contact-form textarea:focus-visible { outline: 2px solid #526744; outline-offset: 3px; }
+  .contact-form button:disabled { opacity: .6; cursor: not-allowed; }
+</style>

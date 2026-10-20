@@ -15,7 +15,7 @@
 @layer base {
 	:root { color-scheme: light; scroll-behavior: smooth; }
 	body { margin: 0; background: var(--color-paper); color: var(--color-ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
-	::selection { background: var(--color-accent); color: var(--color-ink); }
+	::selection { background: var(--color-accent); color: var(--color-paper); }
 	a:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 4px; }
 }
 

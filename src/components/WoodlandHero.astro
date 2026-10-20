@@ -1,0 +1,70 @@
+---
+const budShapes = [
+  'M0 0C-13-8-14-24-4-34C9-27 14-11 0 0Z',
+  'M0 0C-7-12-12-26-4-34C5-25 8-9 0 0Z',
+  'M0 0C-17-6-17-22-4-34C3-25 16-23 12-13Q9-3 0 0Z',
+];
+---
+
+<section class="woodland-hero" aria-labelledby="hero-title">
+  <div class="hero-copy">
+    <h1 id="hero-title"><span class="introduction">I’m Ben.</span><span class="headline-part headline-start">I bring</span> <strong class="headline-part headline-emphasis">ideas to life</strong> <span class="headline-part headline-end">on the web.</span></h1>
+    <p>I build web applications from idea to release, with a focus on dependable software and thoughtful details. Contact me anytime; I’d love to work with you!</p>
+    <a class="branch-button" href="/contact/">
+      <span>Let’s talk</span>
+      <svg viewBox="0 0 280 110" aria-hidden="true" fill="none">
+        <path class="branch-base" pathLength="1" d="M30 84Q120 65 245 78M36 88L55 80M196 75L216 82"/>
+        <path class="branch-highlight" pathLength="1" d="M30 85Q120 68 245 79" stroke="#b79c6d" stroke-width="1"/>
+        <g class="branch-growth">
+          {['M55 79Q30 60 21 34', 'M80 76Q56 56 63 33', 'M215 76Q245 58 251 27', 'M237 78Q264 73 273 54'].map((d, i) => <path pathLength="1" d={d} style={`--growth-delay: ${i * 75}ms`}/>)}
+        </g>
+        <g class="new-leaves">
+          {[
+            { x: 21, y: 35, angle: -65 }, { x: 32, y: 53, angle: 25 },
+            { x: 63, y: 34, angle: -35 }, { x: 249, y: 34, angle: -15 },
+            { x: 243, y: 53, angle: 65 }, { x: 269, y: 60, angle: 25 },
+          ].map(({ x, y, angle }, i) => <g transform={`translate(${x} ${y}) rotate(${angle})`}>
+            <g class="unfolding-leaf" style={`--leaf-delay: ${260 + i * 90}ms`}>
+              <path d={budShapes[[0, 2, 1, 0, 1, 2][i]]}/>
+              <path d="M0 0Q-2-17-4-30M-2-11L-8-18M-3-18L2-24" fill="none" stroke="#c1c88f" stroke-width=".65"/>
+            </g>
+          </g>)}
+        </g>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<style>
+  .woodland-hero { position: relative; isolation: isolate; min-height: 780px; display: flex; align-items: center; padding: 70px 0 130px; }
+  .hero-copy { position: relative; max-width: 760px; z-index: 2; }
+  h1 { font-size: clamp(3.3rem, 6.7vw, 6.6rem); line-height: 1.04; letter-spacing: -.055em; font-weight: 500; text-wrap: balance; }
+  .introduction { display: block; font-family: var(--font-sans); font-size: .44em; letter-spacing: -.04em; margin-bottom: .7em; }
+  strong { font-family: Georgia, serif; font-weight: 400; font-style: italic; color: #526744; }
+  .introduction { animation: hero-arrive .8s .15s cubic-bezier(.22, 1, .36, 1) both; }
+  .headline-part { position: relative; animation: headline-arrive .9s cubic-bezier(.22, 1, .36, 1) both; }
+  .headline-start { animation-delay: .35s; }
+  .headline-emphasis { animation: headline-arrive .9s .55s cubic-bezier(.22, 1, .36, 1) both, leaf-color 1.1s .65s ease both; }
+  .headline-end { animation-delay: .75s; }
+  .hero-copy > p { animation: hero-arrive .9s .95s cubic-bezier(.22, 1, .36, 1) both; }
+  .branch-button { animation: hero-arrive .8s 1.15s cubic-bezier(.22, 1, .36, 1) both; }
+  .branch-button:focus-visible { animation: none; }
+  .branch-base, .branch-highlight { stroke-dasharray: 1; animation: branch-arrive 1.2s 1.25s cubic-bezier(.22, 1, .36, 1) both; }
+  @keyframes hero-arrive { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes headline-arrive { from { opacity: 0; top: 12px; } to { opacity: 1; top: 0; } }
+  @keyframes leaf-color { from { color: #17211b; } to { color: #526744; } }
+  @keyframes branch-arrive { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  p { max-width: 550px; font-size: 1.1rem; line-height: 1.9; color: #596251; margin-top: 30px; }
+  .branch-button { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 240px; height: 100px; margin: 25px 0 0 -22px; color: #344a32; border-radius: 20px; }
+  .branch-button > span { margin-top: 5px; font-size: 1.05rem; font-weight: 600; letter-spacing: .02em; }
+  .branch-button svg { position: absolute; inset: 0; height: 100%; width: 100%; overflow: visible; pointer-events: none; }
+  .branch-base, .branch-growth { stroke: #766044; stroke-width: 3; stroke-linecap: round; }
+  .branch-growth path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .6s ease; }
+  .new-leaves { fill: #60794b; }
+  .unfolding-leaf { opacity: 0; transform: scale(.05, .15) rotate(-25deg); transform-origin: 0 0; transition: transform .4s ease, opacity .25s ease; }
+  .branch-button:is(:hover, :focus-visible) .branch-growth path { stroke-dashoffset: 0; transition-duration: .9s; transition-delay: var(--growth-delay); }
+  .branch-button:is(:hover, :focus-visible) .unfolding-leaf { opacity: 1; transform: scale(1) rotate(0); transition: transform 1s cubic-bezier(.2,.8,.3,1.3) var(--leaf-delay), opacity .4s ease var(--leaf-delay); }
+  @media (max-width: 1000px) { .hero-copy { max-width: 650px; } }
+  @media (max-width: 640px) { .woodland-hero { min-height: 720px; padding-top: 35px; } p { font-size: 1rem; } }
+  @media (prefers-reduced-motion: reduce) { .introduction, .headline-part, .hero-copy > p, .branch-button, .branch-base, .branch-highlight { animation: none; } .branch-button * { transition: none !important; } .branch-growth path { stroke-dashoffset: 0; } .unfolding-leaf { opacity: 1; transform: none; } }
+</style>

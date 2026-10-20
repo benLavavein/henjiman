@@ -1,0 +1,53 @@
+---
+import { ClientRouter } from 'astro:transitions';
+---
+<ClientRouter />
+<script is:inline data-astro-rerun>
+  try {
+    if (sessionStorage.getItem('woodland-initialized')) {
+      document.documentElement.dataset.woodlandReady = 'true';
+    }
+    sessionStorage.setItem('woodland-initialized', 'true');
+  } catch {}
+</script>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const state = location.pathname.startsWith('/work/') ? 'in' : 'out';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.querySelectorAll('[data-woodland-zoom]').forEach(element => {
+          element.setAttribute('data-woodland-zoom', state);
+        });
+      });
+    });
+  });
+</script>
+
+<style is:global>
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+  .woodland-page main { view-transition-name: portfolio-content; }
+  .forest-frame { scale: 1; transform-origin: center; transition: scale .9s cubic-bezier(.22, 1, .36, 1); }
+  .oak-branch { scale: 1; translate: 0 0; transition: scale .9s cubic-bezier(.22, 1, .36, 1), translate .9s cubic-bezier(.22, 1, .36, 1); }
+  ::view-transition-group(portfolio-content) { animation-duration: .9s; animation-timing-function: cubic-bezier(.22, 1, .36, 1); }
+  html[data-woodland-ready] .plant-enter,
+  html[data-woodland-ready] .animate-in,
+  html[data-woodland-ready] .woodland-hero .introduction,
+  html[data-woodland-ready] .woodland-hero .headline-part,
+  html[data-woodland-ready] .woodland-hero .hero-copy > p,
+  html[data-woodland-ready] .woodland-hero .branch-button,
+  html[data-woodland-ready] .woodland-hero .branch-base,
+  html[data-woodland-ready] .woodland-hero .branch-highlight { animation: none; }
+  [data-woodland-zoom="in"] .forest-frame { scale: 1.16; }
+  .oak-branch[data-woodland-zoom="in"] { scale: 1.08; translate: 35px -30px; }
+  .woodland-page.woodland-focus .page-shell { width: min(100% - 3rem, 82rem); }
+  @media (max-width: 650px) {
+    [data-woodland-zoom="in"] .forest-frame { scale: 1.08; }
+    .oak-branch[data-woodland-zoom="in"] { scale: 1.04; translate: 12px -16px; }
+    .woodland-page.woodland-focus .page-shell { width: calc(100% - 2rem); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .forest-frame, .oak-branch { transition: none; }
+    ::view-transition-group(portfolio-content) { animation-duration: 0s; }
+  }
+</style>

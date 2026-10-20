@@ -1,0 +1,92 @@
+---
+import WoodlandSurround from './WoodlandSurround.astro';
+import SquirrelPeek from './SquirrelPeek.astro';
+---
+<WoodlandSurround />
+<SquirrelPeek />
+<header class="woodland-header" transition:persist="woodland-header" transition:animate="none"><img class="oak-branch" data-woodland-zoom={Astro.url.pathname.startsWith('/work/') ? 'in' : 'out'} src="/images/oak-branch-simplified.png" alt="" width="2041" height="770" /><nav class="header-navigation" aria-label="Primary navigation"><div class="desktop-links"><a class="nav-link" href="/" aria-current={Astro.url.pathname === '/' ? 'page' : undefined}>Home</a><a class="nav-link" href="/about/" aria-current={Astro.url.pathname.startsWith('/about') ? 'page' : undefined}>About</a><a class="nav-link" href="/contact/">Contact</a></div><details class="mobile-navigation"><summary aria-label="Toggle navigation"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></summary><div class="mobile-links"><a class="nav-link" href="/" aria-current={Astro.url.pathname === '/' ? 'page' : undefined}>Home</a><a class="nav-link" href="/about/" aria-current={Astro.url.pathname.startsWith('/about') ? 'page' : undefined}>About</a><a class="nav-link" href="/contact/">Contact</a></div></details></nav></header>
+<script>
+  function setupHeader() {
+    document.querySelectorAll<HTMLAnchorElement>('.header-navigation a').forEach(link => {
+      if (link.pathname === location.pathname && link.origin === location.origin) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+  const header = document.querySelector<HTMLElement>('.woodland-header');
+  if (header) {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    const controller = new AbortController();
+    const menu = header.querySelector<HTMLDetailsElement>('.mobile-navigation');
+    if (menu) {
+      menu.open = false;
+      menu.addEventListener('click', event => {
+        if (event.target instanceof Element && event.target.closest('a')) menu.open = false;
+      }, { signal: controller.signal });
+      document.addEventListener('click', event => {
+        if (event.target instanceof Node && !menu.contains(event.target)) menu.open = false;
+      }, { signal: controller.signal });
+      menu.addEventListener('keydown', event => {
+        if (event.key === 'Escape') {
+          menu.open = false;
+          menu.querySelector('summary')?.focus();
+        }
+      }, { signal: controller.signal });
+    }
+    const nativeScroll = CSS.supports('animation-timeline', 'scroll(root block)');
+    let frame = 0;
+    const updateRange = () => {
+      const distance = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+      header.style.setProperty('--header-travel', `${distance * (2 / 3)}px`);
+    };
+    const update = () => {
+      frame = 0;
+      if (nativeScroll) return;
+      header.style.transform = reduced.matches ? 'none' : `translateY(${scrollY * (2 / 3)}px)`;
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    if (!nativeScroll) window.addEventListener('scroll', schedule, { passive: true, signal: controller.signal });
+    const resizeObserver = new ResizeObserver(updateRange);
+    resizeObserver.observe(document.body);
+    window.addEventListener('resize', updateRange, { passive: true, signal: controller.signal });
+    reduced.addEventListener('change', schedule, { signal: controller.signal });
+    document.addEventListener('astro:before-swap', () => {
+      controller.abort();
+      resizeObserver.disconnect();
+      cancelAnimationFrame(frame);
+    }, { once: true });
+    updateRange();
+    update();
+  }
+  }
+  document.addEventListener('astro:page-load', setupHeader);
+</script>
+
+<style is:global>
+  .woodland-page { isolation: isolate; background: transparent; }
+  .woodland-page .page-shell { width: min(100% - 3rem, 72rem); }
+  .woodland-header { position: relative; z-index: 3; height: 180px; pointer-events: none; }
+  @supports (animation-timeline: scroll(root block)) {
+    .woodland-header { animation: header-parallax linear both; animation-timeline: scroll(root block); }
+    @keyframes header-parallax { from { transform: translateY(0); } to { transform: translateY(var(--header-travel, 0px)); } }
+  }
+  .woodland-page { overflow-x: clip; }
+  .desktop-links { display: flex; gap: 12px; }
+  .mobile-navigation { display: none; position: relative; }
+  .mobile-navigation summary { list-style: none; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: transparent; color: #243e30; cursor: pointer; }
+  .mobile-navigation summary::-webkit-details-marker { display: none; }
+  .mobile-navigation summary:focus-visible { outline: 2px solid #526744; outline-offset: 3px; }
+  .mobile-links { position: absolute; right: 0; top: calc(100% + 8px); min-width: 180px; padding: 8px; border: 1px solid #71816540; border-radius: 12px; background: #f3f1eb; box-shadow: 0 10px 25px #243e3015; }
+  .header-navigation .mobile-links a { display: flex; border-radius: 6px; }
+  .header-navigation .mobile-links a:hover { background: #71816515; }
+  @media (max-width: 650px) { .desktop-links { display: none; } .mobile-navigation { display: block; } }
+  .oak-branch { position: absolute; right: max(-65px, -4.7vw); top: -10px; width: min(65vw, 900px); max-width: none; height: auto; transform: rotate(-8deg); transform-origin: right center; }
+  @media (max-width: 1680px) { .oak-branch { left: 845px; right: auto; width: 900px; } }
+  .header-navigation { position: relative; display: flex; justify-content: flex-end; gap: 12px; width: min(100% - 3rem, 72rem); margin: 0 auto; padding-top: 18px; font-size: 15px; font-weight: 600; pointer-events: auto; }
+  .header-navigation a { position: relative; display: inline-flex; align-items: center; min-height: 48px; padding: 0 18px; color: #45513e; letter-spacing: .025em; transition: color .2s ease; }
+  .header-navigation a::after { content: ''; position: absolute; left: 18px; right: 18px; bottom: 5px; height: 2px; border-radius: 50%; background: #60714f; transform: scaleX(0); transform-origin: left; transition: transform .25s ease; }
+  .header-navigation a:is(:hover, :focus-visible, [aria-current="page"]) { color: #243e30; }
+  .header-navigation a:is(:hover, :focus-visible, [aria-current="page"])::after { transform: scaleX(1); }
+  @media (prefers-reduced-motion: reduce) { .woodland-header { animation: none; transform: none; } .header-navigation a, .header-navigation a::after { transition: none; } }
+  @media (max-width: 650px) { .woodland-header { height: 150px; } .oak-branch { top: 45px; } .header-navigation { gap: 4px; } .header-navigation a { padding-inline: 12px; } .header-navigation a::after { left: 12px; right: 12px; } }
+  .woodland-page section[aria-labelledby="selected-work"] { position: relative; }
+  @media (min-width: 1500px) { .woodland-page .page-shell { width: min(100% - 14rem, 72rem); } }
+</style>

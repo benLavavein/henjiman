@@ -2,28 +2,27 @@
 import CaseStudyPage from '../../components/CaseStudyPage.astro';
 
 const sections = [
-	{ number: '01', title: 'The product', content: 'SquareRigger brings equipment records, preventive maintenance, work requests and orders, labor, parts, inventory, purchasing, fuel, inspections, and reporting into one fleet operations platform.' },
+	{ number: '01', title: 'The product', content: 'Squarerigger brings equipment records, preventive maintenance, work requests and orders, labor, parts, inventory, purchasing, fuel, inspections, and reporting into one fleet operations platform.' },
 	{ number: '02', title: 'My role', content: 'As lead developer, I worked across the product and the stack. I helped shape features with the team, made architectural decisions, built interfaces and APIs, reviewed work, and kept projects moving from an initial idea to production.' },
 	{ number: '03', title: 'Owning delivery', content: 'My role did not stop when the code was merged. I helped plan sprints, break larger projects into practical releases, deploy updates to live customers, and ship hotfixes when urgent problems came up.' },
 	{ number: '04', title: 'Working with customers', content: 'I regularly joined customer calls to see problems firsthand, walk through unexpected behavior, and understand how the software was being used in practice. That feedback helped us diagnose issues and decide what to improve next.' },
 	{ number: '05', title: 'Technical leadership', content: 'I worked to make the codebase easier for the team to build on by creating reusable patterns, reviewing edge cases, improving shared systems, and balancing short-term customer needs with long-term maintainability.' },
 ];
 
-const technologies = ['React 19', 'React Router 7', 'TypeScript', 'tRPC', 'TanStack Query', 'Drizzle ORM', 'PostgreSQL', 'PostGIS', 'Cube', 'SST', 'AWS'];
+const technologies = ['React', 'TypeScript', 'PostgreSQL', 'AWS'];
 ---
 
 <CaseStudyPage
-	pageTitle="SquareRigger Fleet Maintenance — Ben Hayden"
-	description="A case study of Ben Hayden’s work as lead developer on SquareRigger’s fleet maintenance web application."
-	eyebrow="Selected work · SquareRigger"
-	heading="Building the systems behind day-to-day fleet maintenance."
-	introduction="I served as lead developer on SquareRigger, a web application that helps fleet teams manage equipment, maintenance, work orders, parts, purchasing, inspections, fuel, and reporting."
+	pageTitle="Squarerigger Fleet Maintenance — Ben Hayden"
+	description="A case study of Ben Hayden’s work as lead developer on Squarerigger’s fleet maintenance web application."
+
+	heading="Squarerigger"
+	subtitle="Fleet maintenance"
+	introduction="I served as a lead developer on the Squarerigger project. This is a full-stack web application that fleet management teams can use to manage their equipment, create and track time on work orders, handle part inventory and purchasing as well as vehicle inspections, fuel and take advantage of cutting-edge in-app reporting capabilities."
 	role="Lead Developer"
 	product="Fleet operations platform"
-	company="SquareRigger"
+	company="Squarerigger"
 	companyUrl="https://squarerigger.com"
-	imageTitle="Product screenshots will live here."
-	imageDescription="The layout is ready for an overview image and a few focused views once we choose what can be shown publicly."
 	skillsIntroduction="The application spans responsive product interfaces, typed APIs, relational data modeling, background jobs, analytics, authentication, permissions, testing, and cloud deployment."
 	{technologies}
 	{sections}
@@ -32,6 +31,6 @@ const technologies = ['React 19', 'React Router 7', 'TypeScript', 'tRPC', 'TanSt
 		slot="media"
 		class="block h-auto w-full"
 		src="/images/squarerigger-work-order.png"
-		alt="SquareRigger work-order workspace showing services, parts, invoice totals, accounting settings, and fleet navigation"
+		alt="Squarerigger work-order workspace showing services, parts, invoice totals, accounting settings, and fleet navigation"
 	/>
 </CaseStudyPage>
