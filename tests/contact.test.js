@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { handleContact } from '../src/server/contact.js';
+import worker from '../src/worker.js';
 
 const env = {
   TURNSTILE_SECRET: 'test-secret',
@@ -54,4 +55,19 @@ test('sends validated messages to the fixed destination', async (context) => {
   assert.equal(sentMessage.to, 'bendanielhayden@gmail.com');
   assert.equal(sentMessage.reply_to, 'jane@example.com');
   assert.match(sentMessage.text, /Hello Ben/);
+});
+
+test('does not expose a Turnstile sitekey until the form is configured', async () => {
+  const response = await worker.fetch(new Request('https://henjiman.com/api/contact-config'), env);
+  assert.equal(response.status, 503);
+  assert.deepEqual(await response.json(), { sitekey: null });
+});
+
+test('serves the public Turnstile sitekey from Worker settings', async () => {
+  const response = await worker.fetch(new Request('https://henjiman.com/api/contact-config'), {
+    ...env,
+    TURNSTILE_SITE_KEY: 'public-sitekey',
+  });
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { sitekey: 'public-sitekey' });
 });

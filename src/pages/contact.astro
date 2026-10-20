@@ -4,8 +4,6 @@ import WoodlandChrome from '../components/WoodlandChrome.astro';
 import WoodlandInit from '../components/WoodlandInit.astro';
 import ShareMeta from '../components/ShareMeta.astro';
 import FaviconLinks from '../components/FaviconLinks.astro';
-
-const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || (import.meta.env.DEV ? '1x00000000000000000000AA' : '');
 ---
 
 <!doctype html>
@@ -41,8 +39,8 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || (import.me
             <div><label for="contact-email">Email</label><input id="contact-email" name="email" type="email" autocomplete="email" placeholder="youremail@domain.com" maxlength="254" required /></div>
             <div><label for="contact-message">Message</label><textarea id="contact-message" name="message" rows="5" placeholder="What do you want to build?" maxlength="5000" required></textarea></div>
             <div class="contact-trap" aria-hidden="true"><label for="contact-website">Website</label><input id="contact-website" name="website" tabindex="-1" autocomplete="off" /></div>
-            {turnstileSiteKey && <div class="turnstile-widget" data-sitekey={turnstileSiteKey}></div>}
-            <p id="form-notice" class="text-sm leading-6 text-muted" role="status" aria-live="polite">{turnstileSiteKey ? 'Complete the security check to send your message.' : 'The form is being set up. Please email me directly for now.'}</p>
+            <div class="turnstile-widget"></div>
+            <p id="form-notice" class="text-sm leading-6 text-muted" role="status" aria-live="polite">Preparing the form…</p>
             <button class="button-primary" type="submit" disabled>Send message</button>
           </form>
         </section>
@@ -98,10 +96,14 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || (import.me
     let widgetId: string;
     let sent = false;
     try {
+      const configResponse = await fetch('/api/contact-config', { cache: 'no-store' });
+      if (!configResponse.ok) throw new Error('Contact form not configured');
+      const config = await configResponse.json() as { sitekey?: string };
+      if (!config.sitekey) throw new Error('Contact form not configured');
       turnstile = await loadTurnstile();
       if (!widget.isConnected) return;
       widgetId = turnstile.render(widget, {
-        sitekey: widget.dataset.sitekey || '',
+        sitekey: config.sitekey,
         action: 'contact',
         theme: 'light',
         callback: () => {
@@ -118,7 +120,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || (import.me
         },
       });
     } catch {
-      notice.textContent = 'The security check could not load. Please refresh or email me directly.';
+      notice.textContent = 'The form is unavailable right now. Please email me directly.';
       return;
     }
 
