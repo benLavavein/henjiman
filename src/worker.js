@@ -7,8 +7,7 @@ export default {
       if (request.method !== 'GET') {
         return new Response('Method not allowed', { status: 405, headers: { Allow: 'GET' } });
       }
-      const ready = env.TURNSTILE_SITE_KEY && env.TURNSTILE_SECRET && env.CLOUDFLARE_ACCOUNT_ID &&
-        env.CLOUDFLARE_EMAIL_API_TOKEN && env.CONTACT_FROM_EMAIL;
+      const ready = env.TURNSTILE_SITE_KEY && env.TURNSTILE_SECRET && env.CONTACT_EMAIL && env.CONTACT_FROM_EMAIL;
       return Response.json(
         { sitekey: ready ? env.TURNSTILE_SITE_KEY : null },
         { status: ready ? 200 : 503, headers: { 'Cache-Control': 'no-store' } },

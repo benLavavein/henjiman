@@ -5,9 +5,8 @@ import worker from '../src/worker.js';
 
 const env = {
   TURNSTILE_SECRET: 'test-secret',
-  CLOUDFLARE_ACCOUNT_ID: 'account-id',
-  CLOUDFLARE_EMAIL_API_TOKEN: 'api-token',
   CONTACT_FROM_EMAIL: 'contact@henjiman.com',
+  CONTACT_EMAIL: { send: async () => ({ messageId: 'test-message-id' }) },
 };
 
 function request(fields = {}) {
@@ -42,19 +41,28 @@ test('sends validated messages to the fixed destination', async (context) => {
   const originalFetch = globalThis.fetch;
   context.after(() => { globalThis.fetch = originalFetch; });
   let sentMessage;
-  globalThis.fetch = async (url, options) => {
-    if (String(url).includes('siteverify')) {
-      return Response.json({ success: true, action: 'contact', hostname: 'henjiman.com' });
-    }
-    sentMessage = JSON.parse(options.body);
-    return Response.json({ success: true, result: { delivered: ['bendanielhayden@gmail.com'], queued: [] } });
-  };
+  globalThis.fetch = async () => Response.json({ success: true, action: 'contact', hostname: 'henjiman.com' });
 
-  const response = await handleContact(request(), env);
+  const response = await handleContact(request(), {
+    ...env,
+    CONTACT_EMAIL: { send: async (message) => { sentMessage = message; } },
+  });
   assert.equal(response.status, 200);
   assert.equal(sentMessage.to, 'bendanielhayden@gmail.com');
-  assert.equal(sentMessage.reply_to, 'jane@example.com');
+  assert.equal(sentMessage.replyTo, 'jane@example.com');
   assert.match(sentMessage.text, /Hello Ben/);
+});
+
+test('does not claim a failed email was sent', async (context) => {
+  const originalFetch = globalThis.fetch;
+  context.after(() => { globalThis.fetch = originalFetch; });
+  globalThis.fetch = async () => Response.json({ success: true, action: 'contact', hostname: 'henjiman.com' });
+
+  const response = await handleContact(request(), {
+    ...env,
+    CONTACT_EMAIL: { send: async () => { throw new Error('Sending failed'); } },
+  });
+  assert.equal(response.status, 502);
 });
 
 test('does not expose a Turnstile sitekey until the form is configured', async () => {

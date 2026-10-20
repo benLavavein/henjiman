@@ -6,7 +6,7 @@ function reply(message, status) {
 }
 
 export async function handleContact(request, env) {
-  if (!env.TURNSTILE_SECRET || !env.CLOUDFLARE_ACCOUNT_ID || !env.CLOUDFLARE_EMAIL_API_TOKEN || !env.CONTACT_FROM_EMAIL) {
+  if (!env.TURNSTILE_SECRET || !env.CONTACT_EMAIL || !env.CONTACT_FROM_EMAIL) {
     return reply('The contact form is temporarily unavailable. Please email me directly.', 503);
   }
 
@@ -66,27 +66,13 @@ export async function handleContact(request, env) {
   }
 
   try {
-    const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${env.CLOUDFLARE_ACCOUNT_ID}/email/sending/send`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${env.CLOUDFLARE_EMAIL_API_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        to: destination,
-        from: env.CONTACT_FROM_EMAIL,
-        reply_to: email,
-        subject: 'New message from henjiman.com',
-        text: `Name: ${name.trim()}\nEmail: ${email}\n\n${message.trim()}`,
-      }),
-      signal: AbortSignal.timeout(10_000),
+    await env.CONTACT_EMAIL.send({
+      to: destination,
+      from: env.CONTACT_FROM_EMAIL,
+      replyTo: email,
+      subject: 'New message from henjiman.com',
+      text: `Name: ${name.trim()}\nEmail: ${email}\n\n${message.trim()}`,
     });
-    const result = await response.json();
-    const accepted = result.result?.delivered?.includes(destination) || result.result?.queued?.includes(destination);
-    if (!response.ok || !result.success || !accepted || result.result?.permanent_bounces?.length || result.result?.suppressed_recipients?.length) {
-      console.error('Contact email delivery failed', result.errors || response.status);
-      return reply('I could not send your message. Please email me directly.', 502);
-    }
   } catch (error) {
     console.error('Contact email delivery failed', error);
     return reply('I could not send your message. Please email me directly.', 502);
