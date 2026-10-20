@@ -4,6 +4,8 @@ import WoodlandChrome from '../components/WoodlandChrome.astro';
 import WoodlandInit from '../components/WoodlandInit.astro';
 import ShareMeta from '../components/ShareMeta.astro';
 import FaviconLinks from '../components/FaviconLinks.astro';
+
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || (import.meta.env.DEV ? '1x00000000000000000000AA' : '');
 ---
 
 <!doctype html>
@@ -34,12 +36,14 @@ import FaviconLinks from '../components/FaviconLinks.astro';
               </div>
             </address>
           </div>
-          <form class="contact-form space-y-6 animate-in delay-2" aria-label="Contact Ben" aria-describedby="form-notice" onsubmit="event.preventDefault()">
-            <div><label for="contact-name">Name</label><input id="contact-name" name="name" autocomplete="name" placeholder="What do you go by?" /></div>
-            <div><label for="contact-email">Email</label><input id="contact-email" name="email" type="email" autocomplete="email" placeholder="youremail@domain.com" /></div>
-            <div><label for="contact-message">Message</label><textarea id="contact-message" name="message" rows="5" placeholder="What do you want to build?"></textarea></div>
-            <p id="form-notice" class="text-sm leading-6 text-muted">This form isn’t sending messages yet. For now, please email me directly.</p>
-            <button class="button-primary" type="button" disabled>Send message</button>
+          <form class="contact-form space-y-6 animate-in delay-2" action="/api/contact" method="post" aria-label="Contact Ben" aria-describedby="form-notice">
+            <div><label for="contact-name">Name</label><input id="contact-name" name="name" autocomplete="name" placeholder="What do you go by?" maxlength="100" required /></div>
+            <div><label for="contact-email">Email</label><input id="contact-email" name="email" type="email" autocomplete="email" placeholder="youremail@domain.com" maxlength="254" required /></div>
+            <div><label for="contact-message">Message</label><textarea id="contact-message" name="message" rows="5" placeholder="What do you want to build?" maxlength="5000" required></textarea></div>
+            <div class="contact-trap" aria-hidden="true"><label for="contact-website">Website</label><input id="contact-website" name="website" tabindex="-1" autocomplete="off" /></div>
+            {turnstileSiteKey && <div class="turnstile-widget" data-sitekey={turnstileSiteKey}></div>}
+            <p id="form-notice" class="text-sm leading-6 text-muted" role="status" aria-live="polite">{turnstileSiteKey ? 'Complete the security check to send your message.' : 'The form is being set up. Please email me directly for now.'}</p>
+            <button class="button-primary" type="submit" disabled>Send message</button>
           </form>
         </section>
       </main>
@@ -48,6 +52,104 @@ import FaviconLinks from '../components/FaviconLinks.astro';
   </body>
 </html>
 
+<script>
+  type Turnstile = {
+    render: (element: HTMLElement, options: {
+      sitekey: string;
+      action: string;
+      theme: string;
+      callback: () => void;
+      'expired-callback': () => void;
+      'error-callback': () => void;
+    }) => string;
+    reset: (widgetId: string) => void;
+  };
+
+  let turnstileLoad: Promise<Turnstile> | undefined;
+
+  function loadTurnstile() {
+    const browser = window as Window & { turnstile?: Turnstile };
+    if (browser.turnstile) return Promise.resolve(browser.turnstile);
+    turnstileLoad ??= new Promise<Turnstile>((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      script.async = true;
+      script.onload = () => browser.turnstile ? resolve(browser.turnstile) : reject(new Error('Turnstile unavailable'));
+      script.onerror = () => reject(new Error('Turnstile unavailable'));
+      document.head.append(script);
+    }).catch((error) => {
+      turnstileLoad = undefined;
+      throw error;
+    });
+    return turnstileLoad;
+  }
+
+  const initializedForms = new WeakSet<HTMLFormElement>();
+
+  async function setupContactForm() {
+    const form = document.querySelector<HTMLFormElement>('.contact-form');
+    const widget = form?.querySelector<HTMLElement>('.turnstile-widget');
+    const button = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const notice = form?.querySelector<HTMLElement>('#form-notice');
+    if (!form || !widget || !button || !notice || initializedForms.has(form)) return;
+    initializedForms.add(form);
+
+    let turnstile: Turnstile;
+    let widgetId: string;
+    let sent = false;
+    try {
+      turnstile = await loadTurnstile();
+      if (!widget.isConnected) return;
+      widgetId = turnstile.render(widget, {
+        sitekey: widget.dataset.sitekey || '',
+        action: 'contact',
+        theme: 'light',
+        callback: () => {
+          button.disabled = false;
+          if (!sent) notice.textContent = '';
+        },
+        'expired-callback': () => {
+          button.disabled = true;
+          notice.textContent = 'The security check expired. Please complete it again.';
+        },
+        'error-callback': () => {
+          button.disabled = true;
+          notice.textContent = 'The security check could not load. Please refresh or email me directly.';
+        },
+      });
+    } catch {
+      notice.textContent = 'The security check could not load. Please refresh or email me directly.';
+      return;
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (button.disabled || !form.reportValidity()) return;
+      button.disabled = true;
+      button.textContent = 'Sending…';
+      notice.textContent = 'Sending your message…';
+
+      try {
+        const response = await fetch(form.action, { method: 'POST', body: new FormData(form) });
+        const result = await response.json() as { message?: string };
+        notice.textContent = result.message || 'I could not send your message. Please email me directly.';
+        if (response.ok) {
+          sent = true;
+          form.reset();
+        }
+      } catch {
+        notice.textContent = 'I could not send your message. Please email me directly.';
+      } finally {
+        button.textContent = 'Send message';
+        turnstile.reset(widgetId);
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', setupContactForm);
+  setupContactForm();
+</script>
+
 <style>
   .contact-form label { display: block; margin-bottom: 10px; font-weight: 600; }
   .contact-form input, .contact-form textarea { display: block; width: 100%; border: 1px solid #71816560; border-radius: 12px; padding: 14px 16px; background: #f3f1eb; color: #243e30; font: inherit; }
@@ -55,4 +157,5 @@ import FaviconLinks from '../components/FaviconLinks.astro';
   .contact-form input::placeholder, .contact-form textarea::placeholder { color: #626b5d; opacity: 1; }
   .contact-form input:focus-visible, .contact-form textarea:focus-visible { outline: 2px solid #526744; outline-offset: 3px; }
   .contact-form button:disabled { opacity: .6; cursor: not-allowed; }
+  .contact-trap { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 </style>
