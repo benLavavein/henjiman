@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { handleContact } from '../src/server/contact.js';
+import { contactEmail } from '../src/server/contact-email.js';
 import worker from '../src/worker.js';
 
 const env = {
@@ -51,6 +52,19 @@ test('sends validated messages to the fixed destination', async (context) => {
   assert.equal(sentMessage.to, 'bendanielhayden@gmail.com');
   assert.equal(sentMessage.replyTo, 'jane@example.com');
   assert.match(sentMessage.text, /Hello Ben/);
+  assert.match(sentMessage.html, /A note from Jane/);
+});
+
+test('escapes visitor content in the HTML email', () => {
+  const result = contactEmail({
+    name: '<Alex & Co>',
+    email: 'alex@example.com',
+    message: '<script>alert("hi")</script>\nNice to meet you.',
+  });
+  assert.match(result.html, /&lt;Alex &amp; Co&gt;/);
+  assert.match(result.html, /&lt;script&gt;alert\(&quot;hi&quot;\)&lt;\/script&gt;<br>Nice to meet you\./);
+  assert.doesNotMatch(result.html, /<script>/);
+  assert.match(result.text, /<script>/);
 });
 
 test('does not claim a failed email was sent', async (context) => {

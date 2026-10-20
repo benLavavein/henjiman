@@ -1,3 +1,5 @@
+import { contactEmail } from './contact-email.js';
+
 const destination = 'bendanielhayden@gmail.com';
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -70,8 +72,7 @@ export async function handleContact(request, env) {
       to: destination,
       from: env.CONTACT_FROM_EMAIL,
       replyTo: email,
-      subject: 'New message from henjiman.com',
-      text: `Name: ${name.trim()}\nEmail: ${email}\n\n${message.trim()}`,
+      ...contactEmail({ name, email, message }),
     });
   } catch (error) {
     console.error('Contact email delivery failed', error);
