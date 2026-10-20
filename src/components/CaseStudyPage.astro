@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import WoodlandChrome from './WoodlandChrome.astro';
 import WoodlandInit from './WoodlandInit.astro';
+import ShareMeta from './ShareMeta.astro';
 
 interface CaseStudySection {
 	number: string;
@@ -19,6 +20,7 @@ interface Props {
 	role: string;
 	projectLinkLabel: 'See the site live' | 'Learn more';
 	companyUrl?: string;
+	shareImage: string;
 	skillsIntroduction: string;
 	technologies: string[];
 	sections: CaseStudySection[];
@@ -34,6 +36,7 @@ const {
 	role,
 	projectLinkLabel,
 	companyUrl,
+	shareImage,
 	skillsIntroduction,
 	technologies,
 	sections,
@@ -49,6 +52,7 @@ const hasMedia = Astro.slots.has('media');
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="description" content={description} />
+		<ShareMeta title={pageTitle} description={description} image={shareImage} imageAlt={`${heading} project screenshot`} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{pageTitle}</title>
