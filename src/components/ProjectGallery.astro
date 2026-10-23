@@ -1,0 +1,29 @@
+---
+interface GalleryImage {
+	src: string;
+	alt: string;
+	caption: string;
+}
+
+interface Props {
+	heading: string;
+	images: GalleryImage[];
+	siteUrl?: string;
+}
+
+const { heading, images, siteUrl } = Astro.props;
+const headingId = `${heading.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-gallery`;
+---
+
+<section class="border-t border-line py-16 sm:py-24" aria-labelledby={headingId}>
+	<h2 id={headingId} class="section-heading mb-10 sm:mb-14">A closer look</h2>
+	<div class="grid gap-6 lg:grid-cols-2">
+		{images.map((image, index) => <div class:list={[images.length % 2 === 1 && index === images.length - 1 && 'lg:col-span-2']}>
+			<figure>
+				<div class="overflow-hidden rounded-2xl border border-line bg-[#181a19] p-2 sm:p-3"><img class:list={['block h-auto w-full rounded-lg', images.length % 2 === 1 && index === images.length - 1 && 'mx-auto max-w-[900px]']} src={image.src} alt={image.alt} loading="lazy" decoding="async" /></div>
+				<figcaption class="mt-3 text-sm text-muted">{image.caption}</figcaption>
+			</figure>
+		</div>)}
+	</div>
+	{siteUrl && <div class="mt-12 flex justify-center sm:mt-16"><a class="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[#526744]/35 bg-[#e8ebdf] px-7 py-3 text-sm font-semibold text-[#243e30] transition-colors hover:bg-[#dde5d5] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#243e30]" href={siteUrl} target="_blank" rel="noopener noreferrer">Visit the <span class="font-[Georgia] text-lg font-normal italic text-[#526744]">live</span> site <span class="ml-1" aria-hidden="true">↗</span></a></div>}
+</section>

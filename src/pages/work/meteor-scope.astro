@@ -1,5 +1,6 @@
 ---
 import CaseStudyPage from '../../components/CaseStudyPage.astro';
+import ProjectGallery from '../../components/ProjectGallery.astro';
 
 const sections = [
 	{ number: '01', title: 'The product', content: 'Scope is a school budgeting system built for Meteor Education that helps teams turn project requirements into detailed estimates. Reusable school, facility, and asset templates provide a starting point, while enrollment, grade ranges, quality levels, and project-specific adjustments shape the final budget.' },
@@ -9,6 +10,12 @@ const sections = [
 ];
 
 const technologies = ['Laravel', 'PHP', 'Livewire', 'Tailwind CSS'];
+
+const galleryImages = [
+	{ src: '/images/scope-user-management.png', alt: 'Scope user management table and profile panel', caption: 'User management' },
+	{ src: '/images/scope-budget-report.png', alt: 'Scope budget report with project level and spending-by-area charts', caption: 'Budget report' },
+	{ src: '/images/scope-budget-breakdown.png', alt: 'Scope budget breakdown by school area with room-by-room costs', caption: 'Detailed estimate breakdown' },
+];
 ---
 
 <CaseStudyPage
@@ -21,7 +28,8 @@ const technologies = ['Laravel', 'PHP', 'Livewire', 'Tailwind CSS'];
 	role="Sole Developer"
 	projectLinkLabel="Learn more"
 	companyUrl="https://meteoreducation.com/"
-	shareImage="/images/scope-estimate-editor.png"
+	shareImage="/images/scope-dashboard.png"
+	creature="cardinal"
 	skillsIntroduction="This project required independent ownership across application architecture, relational data modeling, interactive interfaces, calculation logic, authentication, imports, document generation, testing, and production deployment."
 	{technologies}
 	{sections}
@@ -29,7 +37,8 @@ const technologies = ['Laravel', 'PHP', 'Livewire', 'Tailwind CSS'];
 	<img
 		slot="media"
 		class="block h-auto w-full"
-		src="/images/scope-estimate-editor.png"
-		alt="Scope estimate editor showing project information, facility categories, team assignments, and a live budget summary"
+		src="/images/scope-dashboard.png"
+		alt="Scope dashboard showing estimates, assets, facility types, school types, and quick actions"
 	/>
+	<ProjectGallery slot="gallery" heading="Scope" images={galleryImages} />
 </CaseStudyPage>

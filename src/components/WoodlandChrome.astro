@@ -39,9 +39,9 @@ import SquirrelPeek from './SquirrelPeek.astro';
 </script>
 
 <style is:global>
-  .woodland-page { isolation: isolate; background: transparent; }
+  .woodland-page { --woodland-header-height: 180px; isolation: isolate; background: transparent; }
   .woodland-page .page-shell { width: min(100% - 3rem, 72rem); }
-  .woodland-header { position: relative; z-index: 3; height: 180px; pointer-events: none; }
+  .woodland-header { position: relative; z-index: 3; height: var(--woodland-header-height); pointer-events: none; }
   .woodland-page { overflow-x: clip; }
   .desktop-links { display: flex; gap: 12px; }
   .mobile-navigation { display: none; position: relative; }
@@ -62,7 +62,7 @@ import SquirrelPeek from './SquirrelPeek.astro';
   .header-navigation a:is(:hover, :focus-visible, [aria-current="page"]) { color: #243e30; }
   .header-navigation a:is(:hover, :focus-visible, [aria-current="page"])::after { transform: scaleX(1); }
   @media (prefers-reduced-motion: reduce) { .woodland-header { animation: none; transform: none; } .header-navigation a, .header-navigation a::after { transition: none; } }
-  @media (max-width: 650px) { .woodland-header { height: 150px; } .oak-branch { top: 45px; } .header-navigation { gap: 4px; } .header-navigation a { padding-inline: 12px; } .header-navigation a::after { left: 12px; right: 12px; } }
+  @media (max-width: 650px) { .woodland-page { --woodland-header-height: clamp(150px, calc(105px + 11.54vw), 180px); } .oak-branch { top: 45px; } .header-navigation { gap: 4px; } .header-navigation a { padding-inline: 12px; } .header-navigation a::after { left: 12px; right: 12px; } }
   .woodland-page section[aria-labelledby="selected-work"] { position: relative; }
   @media (min-width: 1500px) { .woodland-page .page-shell { width: min(100% - 14rem, 72rem); } }
 </style>

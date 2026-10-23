@@ -1,5 +1,6 @@
 ---
 import CaseStudyPage from '../../components/CaseStudyPage.astro';
+import ProjectGallery from '../../components/ProjectGallery.astro';
 
 const sections = [
 	{ number: '01', title: 'The product', content: 'Squarerigger brings equipment records, preventive maintenance, work requests and orders, labor, parts, inventory, purchasing, fuel, inspections, and reporting into one fleet operations platform.' },
@@ -10,6 +11,14 @@ const sections = [
 ];
 
 const technologies = ['React', 'TypeScript', 'PostgreSQL', 'AWS'];
+
+const galleryImages = [
+	{ src: '/images/squarerigger-equipment.png', alt: 'Squarerigger equipment record with vehicle details, odometer, and assigned location', caption: 'Equipment records' },
+	{ src: '/images/squarerigger-purchase-order.png', alt: 'Squarerigger purchase order form with vendor, shipping, and part details', caption: 'Purchasing' },
+	{ src: '/images/squarerigger-tire-inspection.png', alt: 'Squarerigger tire inspection with axle diagram, tread measurements, pressure, and service plan', caption: 'Tire inspections' },
+	{ src: '/images/squarerigger-equipment-report.png', alt: 'Squarerigger equipment by location report with summary metrics and chart', caption: 'Reporting' },
+	{ src: '/images/squarerigger-part-inventory.png', alt: 'Squarerigger part record showing stock, purchase history, and related work orders', caption: 'Parts inventory' },
+];
 ---
 
 <CaseStudyPage
@@ -24,7 +33,8 @@ const technologies = ['React', 'TypeScript', 'PostgreSQL', 'AWS'];
 	teamUrl="https://lavavein.com"
 	projectLinkLabel="Learn more"
 	companyUrl="https://squarerigger.com"
-	shareImage="/images/squarerigger-work-order.png"
+	shareImage="/images/squarerigger-work-orders.png"
+	creature="squirrel"
 	skillsIntroduction="The application spans responsive product interfaces, typed APIs, relational data modeling, background jobs, analytics, authentication, permissions, testing, and cloud deployment."
 	{technologies}
 	{sections}
@@ -32,7 +42,8 @@ const technologies = ['React', 'TypeScript', 'PostgreSQL', 'AWS'];
 	<img
 		slot="media"
 		class="block h-auto w-full"
-		src="/images/squarerigger-work-order.png"
-		alt="Squarerigger work-order workspace showing services, parts, invoice totals, accounting settings, and fleet navigation"
+		src="/images/squarerigger-work-orders.png"
+		alt="Squarerigger work orders table with a selected order, maintenance notes, and services in a detail panel"
 	/>
+	<ProjectGallery slot="gallery" heading="Squarerigger" images={galleryImages} />
 </CaseStudyPage>

@@ -1,5 +1,6 @@
 ---
 import CaseStudyPage from '../../components/CaseStudyPage.astro';
+import ProjectGallery from '../../components/ProjectGallery.astro';
 
 const sections = [
 	{ number: '01', title: 'The project', content: 'Southernmost Point Guest House needed a complete redesign that better reflected the property and made its rooms, amenities, history, extended-stay options, bar, and guest information easier to explore on any screen.' },
@@ -8,6 +9,11 @@ const sections = [
 ];
 
 const technologies = ['Astro', 'TypeScript', 'Tailwind CSS'];
+
+const galleryImages = [
+	{ src: '/images/southernmost-point-bar.png', alt: 'Southernmost Point Guest House bar page with colorful cocktails and a description of live music', caption: 'The bar' },
+	{ src: '/images/southernmost-point-rooms.png', alt: 'Southernmost Point Guest House room listings with photos and descriptions', caption: 'Rooms and amenities' },
+];
 ---
 
 <CaseStudyPage
@@ -20,8 +26,17 @@ const technologies = ['Astro', 'TypeScript', 'Tailwind CSS'];
 	role="Web Developer"
 	projectLinkLabel="See the site live"
 	companyUrl="https://southernmostpoint.com/"
-	shareImage="/images/southernmost-point-homepage.png"
+	shareImage="/images/southernmost-point-home.png"
+	creature="monarch"
 	skillsIntroduction="This project combined a complete responsive redesign with component architecture, content modeling, server-side form handling, transactional email, accessibility work, analytics, and deployment."
 	{technologies}
 	{sections}
-/>
+>
+	<img
+		slot="media"
+		class="block h-auto w-full"
+		src="/images/southernmost-point-home.png"
+		alt="Southernmost Point Guest House homepage with the historic property, garden, and reservation navigation"
+	/>
+	<ProjectGallery slot="gallery" heading="Southernmost Point" images={galleryImages} siteUrl="https://southernmostpoint.com/" />
+</CaseStudyPage>

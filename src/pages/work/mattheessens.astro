@@ -1,5 +1,6 @@
 ---
 import CaseStudyPage from '../../components/CaseStudyPage.astro';
+import ProjectGallery from '../../components/ProjectGallery.astro';
 
 const sections = [
 	{ number: '01', title: 'The project', content: 'Mattheessen’s is a family-owned bakery with locations in Key West and Nashville. I refreshed the existing website to better present its products, locations, story, and online ordering experience across desktop and mobile.' },
@@ -8,6 +9,11 @@ const sections = [
 ];
 
 const technologies = ['HTML', 'CSS', 'JavaScript'];
+
+const galleryImages = [
+	{ src: '/images/mattheessens-build-a-box.png', alt: 'Mattheessen’s custom cookie box builder showing selected cookies and available flavors', caption: 'Build-your-own cookie box' },
+	{ src: '/images/mattheessens-cart.png', alt: 'Mattheessen’s shopping cart with a cookie box, fudge bundle, order total, and checkout button', caption: 'Cart and checkout' },
+];
 ---
 
 <CaseStudyPage
@@ -20,8 +26,17 @@ const technologies = ['HTML', 'CSS', 'JavaScript'];
 	role="Web Developer"
 	projectLinkLabel="See the site live"
 	companyUrl="https://www.mattskeywest.com/"
-	shareImage="/images/mattheessens-homepage.png"
+	shareImage="/images/mattheessens-products.png"
+	creature="stick-bug"
 	skillsIntroduction="This project combined responsive frontend work with payment integration, serverless order verification, transactional email delivery, and production deployment."
 	{technologies}
 	{sections}
-/>
+>
+	<img
+		slot="media"
+		class="block h-auto w-full"
+		src="/images/mattheessens-products.png"
+		alt="Mattheessen’s product showcase featuring cookies, fudge, macaroons, pie, and ice cream"
+	/>
+	<ProjectGallery slot="gallery" heading="Mattheessen’s" images={galleryImages} siteUrl="https://www.mattskeywest.com/" />
+</CaseStudyPage>

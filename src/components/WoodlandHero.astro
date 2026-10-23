@@ -54,7 +54,7 @@ const budShapes = [
   @keyframes headline-arrive { from { opacity: 0; top: 12px; } to { opacity: 1; top: 0; } }
   @keyframes leaf-color { from { color: #17211b; } to { color: #526744; } }
   @keyframes branch-arrive { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
-  p { max-width: 550px; font-size: 1.1rem; line-height: 1.9; color: #596251; margin-top: 30px; }
+  p { max-width: 550px; font-size: clamp(1rem, 2.7vw, 1.1rem); line-height: 1.9; color: #596251; margin-top: 30px; }
   .branch-button { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 240px; height: 100px; margin: 25px 0 0 -22px; color: #344a32; border-radius: 20px; }
   .branch-button > span { margin-top: 5px; font-size: 1.05rem; font-weight: 600; letter-spacing: .02em; }
   .branch-button svg { position: absolute; inset: 0; height: 100%; width: 100%; overflow: visible; pointer-events: none; }
@@ -67,6 +67,6 @@ const budShapes = [
   @media (hover: none) and (pointer: coarse) { .branch-growth path { stroke-dashoffset: 0; } .unfolding-leaf { opacity: 1; transform: scale(1) rotate(0); } }
   @media (max-width: 1000px) { .hero-copy { max-width: 650px; } }
   @media (max-width: 900px) { .hero-copy { width: 100%; margin-inline: auto; } .branch-button { display: flex; margin-inline: auto; } }
-  @media (max-width: 640px) { .woodland-hero { min-height: 640px; padding-top: 35px; } p { font-size: 1rem; } }
+  @media (max-width: 650px) { .woodland-hero { min-height: clamp(640px, calc(550px + 23.08vw), 700px); padding-top: clamp(35px, calc(-17.5px + 13.46vw), 70px); } }
   @media (prefers-reduced-motion: reduce) { .introduction, .headline-part, .hero-copy > p, .branch-button, .branch-base, .branch-highlight { animation: none; } .branch-button * { transition: none !important; } .branch-growth path { stroke-dashoffset: 0; } .unfolding-leaf { opacity: 1; transform: none; } }
 </style>
