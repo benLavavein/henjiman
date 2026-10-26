@@ -26,6 +26,8 @@ import { ClientRouter } from 'astro:transitions';
 
 <style is:global>
   ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+  ::view-transition-new(case-scroll-cue) { animation: woodland-cue-appear .9s ease-out both; }
+  @keyframes woodland-cue-appear { from { opacity: 0; } to { opacity: 1; } }
   .woodland-page main { view-transition-name: portfolio-content; }
   .forest-frame { scale: 1; transform-origin: center; transition: scale .9s cubic-bezier(.22, 1, .36, 1); }
   .oak-branch { scale: 1; translate: 0 0; transition: scale .9s cubic-bezier(.22, 1, .36, 1), translate .9s cubic-bezier(.22, 1, .36, 1); }
@@ -49,5 +51,6 @@ import { ClientRouter } from 'astro:transitions';
   @media (prefers-reduced-motion: reduce) {
     .forest-frame, .oak-branch { transition: none; }
     ::view-transition-group(portfolio-content) { animation-duration: 0s; }
+    ::view-transition-new(case-scroll-cue) { animation: none; }
   }
 </style>

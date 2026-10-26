@@ -63,6 +63,7 @@ const creatureConfig = projectCreatures[project];
 		<meta name="description" content={description} />
 		<ShareMeta title={pageTitle} description={description} image={shareImage} imageAlt={`${heading} project screenshot`} />
 		<FaviconLinks />
+		{creatureConfig.characters.map((character) => <link rel="preload" as="image" href={character.image} fetchpriority="high" />)}
 		<meta name="generator" content={Astro.generator} />
 		<title>{pageTitle}</title>
 	</head>
@@ -81,6 +82,9 @@ const creatureConfig = projectCreatures[project];
 							src={character.image}
 							alt=""
 							aria-hidden="true"
+							loading="eager"
+							decoding="sync"
+							fetchpriority="high"
 							style={`--creature-width:${character.widthEm}em;--creature-left:${character.leftEm}em;--creature-perch:${character.perchEm}em;--creature-rotation:${character.rotationDeg ?? 0}deg;--creature-origin:${character.transformOrigin ?? 'center'}`}
 						/>)}
 					</div>
@@ -127,7 +131,7 @@ const creatureConfig = projectCreatures[project];
 </html>
 
 <style>
-  .scroll-cue { position: fixed; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 3px; color: #626b65; opacity: .6; font-size: 18px; letter-spacing: .04em; pointer-events: none; z-index: 5; }
+  .scroll-cue { position: fixed; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 3px; color: #626b65; opacity: .6; font-size: 18px; letter-spacing: .04em; pointer-events: none; z-index: 5; view-transition-name: case-scroll-cue; }
   .case-hero { position: relative; display: flex; flex-direction: column; justify-content: center; min-height: calc(100svh - var(--woodland-header-height)); }
   .case-title-wrap { position: relative; align-self: flex-start; width: max-content; max-width: min(100%, 64rem); font-size: clamp(3.5rem, 8vw, 7.5rem); }
   .case-title-creature { position: absolute; z-index: 20; left: var(--creature-left); bottom: calc(100% - var(--creature-perch)); width: var(--creature-width); height: auto; transform: rotate(var(--creature-rotation)); transform-origin: var(--creature-origin); pointer-events: none; user-select: none; }
