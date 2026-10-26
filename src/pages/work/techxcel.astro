@@ -1,0 +1,33 @@
+---
+import CaseStudyPage from '../../components/CaseStudyPage.astro';
+
+const sections = [
+	{ number: '01', title: 'The project', content: 'TechXcel is a government-funded initiative focused on expanding Registered Apprenticeship opportunities in IT. The website explains how the program works, who can participate, and where prospective sponsors can find the information they need to apply.' },
+	{ number: '02', title: 'Building the website', content: 'I built the responsive, multi-page site with Astro. It brings together the program overview, partner directory, resources, news, FAQs, and clear paths to the sponsor application. I also set up structured content in Sanity so the team can update key information without changing the site code.' },
+	{ number: '03', title: 'Making it ready for visitors', content: 'I worked through accessibility, mobile layouts, search metadata, and a contact form with validation, bot protection, and email delivery. The site is still being prepared for launch, so there is no public link yet.' },
+];
+
+const technologies = ['Astro', 'TypeScript', 'Tailwind CSS', 'Sanity', 'Cloudflare'];
+---
+
+<CaseStudyPage
+	pageTitle="TechXcel — Ben Hayden"
+	description="Ben Hayden’s work on TechXcel, a website for a government-funded initiative expanding IT apprenticeships."
+	heading="TechXcel"
+	subtitle="IT apprenticeships"
+	introduction="I built the TechXcel website for a government-funded program working to grow IT apprenticeship opportunities nationwide. The site helps prospective sponsors understand the program and find their next steps. It has not launched yet."
+	role="Web Developer"
+	projectLinkLabel="Learn more"
+	shareImage="/images/techxcel-home.png"
+	project="techxcel"
+	skillsIntroduction="The work spans responsive site development, content management, accessible navigation and forms, search metadata, and a secure contact flow."
+	{technologies}
+	{sections}
+>
+	<img
+		slot="media"
+		class="block h-auto w-full"
+		src="/images/techxcel-home.png"
+		alt="TechXcel homepage introducing the IT apprenticeship program, with sponsor application and program overview links"
+	/>
+</CaseStudyPage>

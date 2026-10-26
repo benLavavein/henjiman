@@ -4,6 +4,7 @@ import WoodlandChrome from './WoodlandChrome.astro';
 import WoodlandInit from './WoodlandInit.astro';
 import ShareMeta from './ShareMeta.astro';
 import FaviconLinks from './FaviconLinks.astro';
+import { projectCreatures, type ProjectCreatureKey } from '../data/projectCreatures';
 
 interface CaseStudySection {
 	number: string;
@@ -24,7 +25,7 @@ interface Props {
 	projectLinkLabel: 'See the site live' | 'Learn more';
 	companyUrl?: string;
 	shareImage: string;
-	creature: 'squirrel' | 'stick-bug' | 'cardinal' | 'monarch';
+	project: ProjectCreatureKey;
 	skillsIntroduction: string;
 	technologies: string[];
 	sections: CaseStudySection[];
@@ -43,19 +44,14 @@ const {
 	projectLinkLabel,
 	companyUrl,
 	shareImage,
-	creature,
+	project,
 	skillsIntroduction,
 	technologies,
 	sections,
 } = Astro.props;
 
 const hasMedia = Astro.slots.has('media');
-const creatureImages = {
-	squirrel: '/images/grey-squirrel-perched.png',
-	'stick-bug': '/images/stick-bug.png',
-	cardinal: '/images/cardinal.png',
-	monarch: '/images/monarch-butterfly.png',
-};
+const creatureConfig = projectCreatures[project];
 ---
 
 <!doctype html>
@@ -78,9 +74,15 @@ const creatureImages = {
 			<main>
 				<section class="case-hero py-20 sm:py-28">
 					<a class="case-back" href="/#selected-work"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true"><path d="m14 5-7 7 7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg><span>Back to projects</span></a>
-					<div class:list={['case-title-wrap animate-in delay-1', creature]}>
+					<div class="case-title-wrap animate-in delay-1" style={`--title-margin-medium:${'titleMarginAtMediumWidthsEm' in creatureConfig ? creatureConfig.titleMarginAtMediumWidthsEm : 0}em`}>
 						<h1 class="relative z-10 max-w-5xl select-none text-balance font-semibold leading-[0.92] tracking-[-0.065em]">{heading}</h1>
-						<img class="case-title-creature" src={creatureImages[creature]} alt="" aria-hidden="true" />
+						{creatureConfig.characters.map((character) => <img
+							class="case-title-creature"
+							src={character.image}
+							alt=""
+							aria-hidden="true"
+							style={`--creature-width:${character.widthEm}em;--creature-left:${character.leftEm}em;--creature-perch:${character.perchEm}em;--creature-rotation:${character.rotationDeg ?? 0}deg;--creature-origin:${character.transformOrigin ?? 'center'}`}
+						/>)}
 					</div>
 					<p class="mt-5 text-2xl text-muted animate-in delay-1 sm:text-3xl">{subtitle}</p>
 					<p class="mt-9 max-w-3xl text-pretty text-lg leading-8 text-muted animate-in delay-2 sm:text-xl">{introduction}</p>
@@ -128,12 +130,8 @@ const creatureImages = {
   .scroll-cue { position: fixed; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 3px; color: #626b65; opacity: .6; font-size: 18px; letter-spacing: .04em; pointer-events: none; z-index: 5; }
   .case-hero { position: relative; display: flex; flex-direction: column; justify-content: center; min-height: calc(100svh - var(--woodland-header-height)); }
   .case-title-wrap { position: relative; align-self: flex-start; width: max-content; max-width: min(100%, 64rem); font-size: clamp(3.5rem, 8vw, 7.5rem); }
-  .case-title-creature { position: absolute; z-index: 20; left: var(--creature-left); bottom: calc(100% - var(--creature-perch)); width: var(--creature-width); height: auto; pointer-events: none; user-select: none; }
-  .case-title-wrap.squirrel { --creature-width: 1.3em; --creature-left: 3.5em; --creature-perch: .45em; }
-  .case-title-wrap.stick-bug { --creature-width: 1.4em; --creature-left: 3.578em; --creature-perch: .395em; }
-  .case-title-wrap.cardinal { --creature-width: 1.3em; --creature-left: 2em; --creature-perch: .44em; }
-  .case-title-wrap.monarch { --creature-width: 1em; --creature-left: 3.4em; --creature-perch: .42em; }
-  @media (min-width: 651px) and (max-width: 1100px) { .case-title-wrap.cardinal { margin-top: .9em; } }
+  .case-title-creature { position: absolute; z-index: 20; left: var(--creature-left); bottom: calc(100% - var(--creature-perch)); width: var(--creature-width); height: auto; transform: rotate(var(--creature-rotation)); transform-origin: var(--creature-origin); pointer-events: none; user-select: none; }
+  @media (min-width: 651px) and (max-width: 1100px) { .case-title-wrap { margin-top: var(--title-margin-medium); } }
   .case-back { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-bottom: 24px; color: #526744; font-size: 15px; font-weight: 500; border-radius: 4px; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 5px; transition: color .25s ease, text-decoration-color .25s ease; }
   .case-back svg { flex-shrink: 0; transition: transform .25s ease; }
   .case-back:is(:hover, :focus-visible) { color: #243e30; }
