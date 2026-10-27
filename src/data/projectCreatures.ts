@@ -21,18 +21,18 @@ export const projectCreatures = {
 	},
 	techxcel: {
 		characters: [
-			{ image: '/images/tree-frog-climbing.webp', widthEm: 0.48, leftEm: 3.5, perchEm: 0.81, rotationDeg: 14 },
+			{ image: '/images/tree-frog-leaping.webp', widthEm: 1, leftEm: 2.6, perchEm: -0.05 },
 		],
 	},
 	'meteor-scope': {
 		characters: [
-			{ image: '/images/cardinal.webp', widthEm: 1.3, leftEm: 2, perchEm: 0.44 },
+			{ image: '/images/cardinal.webp', widthEm: 1.15, leftEm: 2.05, perchEm: 0.41 },
 		],
 		titleMarginAtMediumWidthsEm: 0.9,
 	},
 	mattheessens: {
 		characters: [
-			{ image: '/images/stick-bug.webp', widthEm: 1.4, leftEm: 3.578, perchEm: 0.395 },
+			{ image: '/images/praying-mantis.webp', widthEm: 0.75, leftEm: 5.19, perchEm: 0.4, rotationDeg: 14 },
 		],
 	},
 	'southernmost-point': {
